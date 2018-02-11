@@ -9,11 +9,16 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.ericulicny.adafruit.sensor.TempHumiditySensor;
+import com.ericulicny.power.PowerRequest;
+import com.ericulicny.power.PowerUtilizationConstants;
+import com.eulicny.homedashboard.dao.PowerUtilization;
 import com.eulicny.homedashboard.dao.TempHumidity;
+import com.eulicny.homedashboard.repo.PowerUtilizationMongoRepo;
 import com.eulicny.homedashboard.repo.TempHumidMongoRepo;
 
 @Component
@@ -23,6 +28,12 @@ public class ScheduledTasks {
 
     @Autowired
     private TempHumidMongoRepo tempHumidMongoRepo;
+    
+    @Autowired
+    private PowerUtilizationMongoRepo powerUtilizationMongoRepo;
+    
+    @Value("${powerHost}")
+    private String powerHost;
     
     private final int CONST_TIMER_SECONDS   = 60000*5;
     @Scheduled(fixedRate = CONST_TIMER_SECONDS)
@@ -38,6 +49,21 @@ public class ScheduledTasks {
             tempHumidMongoRepo.insert(temperatureHumidityInsert);
         } catch (IOException e) {
             log.error("Error fetching temperature data=" + e.getMessage());
+            e.printStackTrace();
+        }
+        
+    }
+    
+    @Scheduled(fixedRate = CONST_TIMER_SECONDS)
+    public void reportPowerUtilization() {
+        Date date = new Date();
+        PowerUtilization powerUtilizationInsert = new PowerUtilization();
+        powerUtilizationInsert.setEpochTime(Instant.now().toEpochMilli());
+        try {
+            powerUtilizationInsert.setPowerKW(Double.parseDouble(PowerRequest.getPowerKW("http://"+powerHost+PowerUtilizationConstants.CONST_POWERURL)));
+            powerUtilizationMongoRepo.insert(powerUtilizationInsert);
+        } catch (Exception e) {
+            log.error("Error fetching Power data=" + e.getMessage());
             e.printStackTrace();
         }
         
