@@ -71,7 +71,7 @@ public class TempHumidityAPI {
         Map<String,List<TempHumidity> > model = new HashMap<String,List<TempHumidity>>();
         
         long now = Instant.now().toEpochMilli();
-        long monthMillis = 1000 * 60 * 60 * 24 * 31;
+        long monthMillis = 1000L * 60 * 60 * 24 * 31;
         List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - monthMillis, now);
         log.info("API - monthhistorical result="+temperatureHumidityList.size());
 

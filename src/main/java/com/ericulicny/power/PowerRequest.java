@@ -21,6 +21,6 @@ public class PowerRequest {
         }
         rd.close();
         String stringResult = result.toString();
-        return stringResult.substring(0, stringResult.length()-2).trim();    
+        return stringResult.substring(0, stringResult.length()-2).trim();
     }
 }
