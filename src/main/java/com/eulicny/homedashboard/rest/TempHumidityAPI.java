@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.util.*;
 
 import com.eulicny.homedashboard.domain.MonthlyTemperature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +21,11 @@ public class TempHumidityAPI {
     private TempHumidMongoRepo tempHumidMongoRepo;
     
     TempHumiditySensor temperatureHudmiditySensor = new TempHumiditySensor();
-    
-    @RequestMapping("/api/temphumid/current")
+    private static final Logger log = LoggerFactory.getLogger(TempHumidityAPI.class);
+
+    private final static String CONST_API_TEMPHUMID = "temphumid";
+
+    @RequestMapping("/api/"+CONST_API_TEMPHUMID+"/current")
     public Map<String,Object> home() {
         Map<String,Object> model = new HashMap<String,Object>();
         temperatureHudmiditySensor.initialize();
@@ -36,36 +41,39 @@ public class TempHumidityAPI {
         return model;
     }
     
-    @RequestMapping("/api/temphumid/dayhistorical")
+    @RequestMapping("/api/"+CONST_API_TEMPHUMID+"/dayhistorical")
     public Map<String, List<TempHumidity>> dayHistorical() {
         Map<String,List<TempHumidity> > model = new HashMap<String,List<TempHumidity>>();
         
         Long now = Instant.now().toEpochMilli();
         List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000 * 60 * 60 * 24), now);
+        log.info("API - dayhistorical result="+temperatureHumidityList.size());
 
         model.put("dayhistorical", temperatureHumidityList);
   
         return model;
     }
     
-    @RequestMapping("/api/temphumid/hourhistorical")
+    @RequestMapping("/api/"+CONST_API_TEMPHUMID+"/hourhistorical")
     public Map<String, List<TempHumidity>> hourHistorical() {
         Map<String,List<TempHumidity> > model = new HashMap<String,List<TempHumidity>>();
         
         Long now = Instant.now().toEpochMilli();
         List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000 * 60 * 60), now);
-
+        log.info("API - hourhistorical result="+temperatureHumidityList.size());
         model.put("hourhistorical", temperatureHumidityList);
   
         return model;
     }
     
-    @RequestMapping("/api/temphumid/monthhistorical")
+    @RequestMapping("/api/"+CONST_API_TEMPHUMID+"/monthhistorical")
     public Map<String, List<TempHumidity>> monthHistorical() {
         Map<String,List<TempHumidity> > model = new HashMap<String,List<TempHumidity>>();
         
-        Long now = Instant.now().toEpochMilli();
-        List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000 * 60 * 60 * 24 * 31), now);
+        long now = Instant.now().toEpochMilli();
+        long monthMillis = 1000 * 60 * 60 * 24 * 31;
+        List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - monthMillis, now);
+        log.info("API - monthhistorical result="+temperatureHumidityList.size());
 
         model.put("monthhistorical", temperatureHumidityList);
   
@@ -73,13 +81,17 @@ public class TempHumidityAPI {
     }
 
 
-    @RequestMapping("/api/temphumid/monthlystatistics")
-    public Map<String, MonthlyTemperature> monthStatistics() {
-        MonthlyTemperature monthlyTemperature                       = new MonthlyTemperature();
-        Map<String, MonthlyTemperature> model                       = new HashMap<>();
+    @RequestMapping("/api/"+CONST_API_TEMPHUMID+"/monthlystatistics")
+    public Map<String, HashMap<Integer, MonthlyTemperature>> monthStatistics() {
 
+        MonthlyTemperature monthlyTemperature                       = null;
+
+        HashMap<Integer, MonthlyTemperature> monthlyTemperatures    = new HashMap<>();
+        Map<String, HashMap<Integer, MonthlyTemperature>> model     = new HashMap<>();
+        boolean valueFound                                          = false;
         Long now = Instant.now().toEpochMilli();
         List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000 * 60 * 60 * 24 * 365), now);
+        log.info("API - monthlystatistics result="+temperatureHumidityList.size());
 
         Calendar calendar = Calendar.getInstance();
         //Months loop
@@ -106,6 +118,7 @@ public class TempHumidityAPI {
               //Iterate through and generate data
               for(TempHumidity tempHumid : temperatureHumidityList) {
                   if(tempHumid.getEpochTime() > start && tempHumid.getEpochTime() < end) {
+                      valueFound = true;
                       if (tempHumid.getTemperature() > dailyMax) {
                           dailyMax = tempHumid.getTemperature();
                       }
@@ -117,17 +130,27 @@ public class TempHumidityAPI {
 
                   }
               }
-              HashMap<Integer,Double> dailyAvgHash  = new HashMap<Integer,Double>();
-              HashMap<Integer,Double> dailyLowHash  = new HashMap<Integer,Double>();
-              HashMap<Integer,Double> dailyHighHash = new HashMap<Integer,Double>();
-              dailyAvgHash.put(j,  (dailyAvg/count));
-              dailyLowHash.put(j,  dailyMin);
-              dailyHighHash.put(j, dailyMax);
+              if(valueFound) {
+                  if(monthlyTemperatures.get(calendar.get(Calendar.MONTH) + 1) == null) {
+                      monthlyTemperature                         = new MonthlyTemperature();
+                  } else {
+                      monthlyTemperature                         = monthlyTemperatures.get(calendar.get(Calendar.MONTH) + 1);
+                  }
 
-              monthlyTemperature.addDailyAvg(dailyAvgHash);
-              monthlyTemperature.addDailyHigh(dailyHighHash);
-              monthlyTemperature.addDailyLow(dailyLowHash);
+                  HashMap<Integer, Double> dailyAvgHash = new HashMap<Integer, Double>();
+                  HashMap<Integer, Double> dailyLowHash = new HashMap<Integer, Double>();
+                  HashMap<Integer, Double> dailyHighHash = new HashMap<Integer, Double>();
+                  dailyAvgHash.put(j, (dailyAvg / count));
+                  dailyLowHash.put(j, dailyMin);
+                  dailyHighHash.put(j, dailyMax);
 
+                  monthlyTemperature.addDailyAvg(dailyAvgHash);
+                  monthlyTemperature.addDailyHigh(dailyHighHash);
+                  monthlyTemperature.addDailyLow(dailyLowHash);
+                  monthlyTemperatures.put(calendar.get(Calendar.MONTH) + 1, monthlyTemperature);
+              }
+
+              valueFound = false;
           }
 
 
@@ -136,7 +159,7 @@ public class TempHumidityAPI {
         }
 
 
-        model.put("monthlystatsitics", monthlyTemperature);
+        model.put("monthlystatistics", monthlyTemperatures);
 
         return model;
     }

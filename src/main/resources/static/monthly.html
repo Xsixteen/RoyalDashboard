@@ -29,27 +29,17 @@ body {
   <div class="container">
     <div class="starter-template">
     
-      <div ng-controller="tempHumid" ng-cloak class="ng-cloak">
-	    <h1>Home Dashboard</h1>
+      <div ng-controller="monthly" ng-cloak class="ng-cloak">
+	    <h1>Monthly Statistics</h1>
 	    <br>
+
 	    <div class="well">
-	       <h2>Temperature</h2><h3>{{temperatureC}} &deg;C<br> {{temperatureF}} &deg;F</h3><br>
-	       <h2>Relative Humidity</h2><h3>{{humidity}} %</h3>
-	    </div>
-	    
-	    <br>
-	    <div class="well">
-           <h2><i class="fa fa-bolt" aria-hidden="true"></i>Current Power Utilization</h2><h3>{{currPower}} kW</h3>
-        </div>
-        <br>
-	    <div class="well">
-           <h2>Daily Temperature Chart</h2><br>
-                <div id="tempChart"></div>
+           <h2>Monthly Daily Temperature Chart</h2><br>
+                <div id="monthlyDailyTempChart"></div>
            <br>
-           
-           <h2>Daily Power Chart</h2><br>
-                <div id="powerChart"></div>
-           <br>
+            <h2>Monthly Temperature Chart</h2><br>
+            <div id="monthlyTempChart"></div>
+            <br>
         </div>
         <br>
 	    <h5>LastUpdated: {{timestamp}}</h5>

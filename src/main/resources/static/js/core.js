@@ -166,3 +166,113 @@ app.controller('tempHumid', function($scope, $interval, $http) {
      $scope.refreshData();
 });
 
+app.controller('monthly', function($scope, $interval, $http) {
+    $scope.monthlyData = function() {
+
+     $http.get("api/temphumid/monthlystatistics")
+        .then(function(response) {
+            var monthlystatistics      = response.data.monthlystatistics;
+
+            var dailyHighArray     = [];
+            var dailyLowArray      = [];
+            var timeArray          = [];
+
+            for (var monthKey in monthlystatistics) {
+                if (monthlystatistics.hasOwnProperty(monthKey)) {
+                    for (var dayKey in monthlystatistics[monthKey].dailyHigh) {
+                        if (monthlystatistics[monthKey].dailyHigh.hasOwnProperty(dayKey)) {
+                            for (var specificDayKey in monthlystatistics[monthKey].dailyHigh[dayKey]) {
+                                if (monthlystatistics[monthKey].dailyHigh[dayKey].hasOwnProperty(specificDayKey)) {
+
+                                   timeArray.push(monthKey + "-" + specificDayKey);
+                                   var tempC              = monthlystatistics[monthKey].dailyHigh[dayKey][specificDayKey];
+                                   var tempF              = tempC * 9 / 5 + 32;
+                                   
+                                   dailyHighArray.push(tempF);
+
+                                }
+                            }
+                        }
+
+
+                    }
+                    for (var dayKey in monthlystatistics[monthKey].dailyLow) {
+                        if (monthlystatistics[monthKey].dailyLow.hasOwnProperty(dayKey)) {
+                            for (var specificDayKey in monthlystatistics[monthKey].dailyLow[dayKey]) {
+                                if (monthlystatistics[monthKey].dailyLow[dayKey].hasOwnProperty(specificDayKey)) {
+                                    var tempC              = monthlystatistics[monthKey].dailyLow[dayKey][specificDayKey];
+                                    var tempF              = tempC * 9 / 5 + 32;
+                                   
+                                   dailyLowArray.push(tempF);
+
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+
+
+
+            Highcharts.chart('monthlyTempChart', {
+                             chart: {
+                                type: 'bar'
+                             },
+                             title: {
+                                 text: 'Monthly Temperature Chart'
+                             },
+                             xAxis: {
+                                 categories: timeArray
+                             },
+                             yAxis:[{
+                                 lineWidth: 1,
+                                 min:50,
+                                 title: {
+                                        text: 'Temperature (F)'
+                                 }
+                             }],
+
+                             series: [{
+                                 name: 'High Temperature',
+                                 data: dailyHighArray
+                             },{
+                                 name: 'Low Temperature',
+                                 data: dailyLowArray
+                             }]
+             });
+
+
+             Highcharts.chart('monthlyDailyTempChart', {
+                             title: {
+                                 text: 'Monthly Daily Temperature Chart'
+                             },
+                             xAxis: {
+                                 categories: timeArray
+                             },
+                             yAxis:[{
+                                 lineWidth: 1,
+                                 min:50,
+                                 title: {
+                                        text: 'Temperature (F)'
+                                 }
+                             }],
+
+                             series: [{
+                                 name: 'High Temperature',
+                                 data: dailyHighArray
+                             },{
+                                 name: 'Low Temperature',
+                                 data: dailyLowArray
+                             }]
+             });
+
+        });
+
+
+     }
+
+     $scope.monthlyData();
+
+});
+
