@@ -266,37 +266,12 @@ app.controller('monthly', function($scope, $interval, $http) {
 
 
 
-            Highcharts.chart('monthlyDailyTempChart', {
+            Highcharts.chart('monthlyTempChart', {
                              chart: {
                                 type: 'bar'
                              },
                              title: {
                                  text: 'Monthly Temperature Chart'
-                             },
-                             xAxis: {
-                                 categories: timeArray
-                             },
-                             yAxis:[{
-                                 lineWidth: 1,
-                                 min:50,
-                                 title: {
-                                        text: 'Temperature (F)'
-                                 }
-                             }],
-
-                             series: [{
-                                 name: 'High Temperature',
-                                 data: dailyHighArray
-                             },{
-                                 name: 'Low Temperature',
-                                 data: dailyLowArray
-                             }]
-             });
-
-
-             Highcharts.chart('monthlyTempChart', {
-                             title: {
-                                 text: 'Monthly Daily Temperature Chart'
                              },
                              xAxis: {
                                  categories: monthTimeArray
@@ -315,6 +290,31 @@ app.controller('monthly', function($scope, $interval, $http) {
                              },{
                                  name: 'Low Temperature',
                                  data: monthLowArray
+                             }]
+             });
+
+
+             Highcharts.chart('monthlyDailyTempChart', {
+                             title: {
+                                 text: 'Monthly Daily Temperature Chart'
+                             },
+                             xAxis: {
+                                 categories: monthTimeArray
+                             },
+                             yAxis:[{
+                                 lineWidth: 1,
+                                 min:50,
+                                 title: {
+                                        text: 'Temperature (F)'
+                                 }
+                             }],
+
+                             series: [{
+                                 name: 'High Temperature',
+                                 data: dailyHighArray
+                             },{
+                                 name: 'Low Temperature',
+                                 data: dailyLowArray
                              }]
              });
 
