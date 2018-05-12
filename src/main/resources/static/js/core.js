@@ -237,10 +237,10 @@ app.controller('monthly', function($scope, $interval, $http) {
                             }
 
                         }
-                        monthHighArray.push(sum/count);
-
-
                     }
+
+                    monthHighArray.push(sum/count);
+
                     count = 0;
                     sum   = 0;
                     for (var dayKey in monthlystatistics[monthKey].dailyLow) {
