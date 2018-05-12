@@ -299,7 +299,7 @@ app.controller('monthly', function($scope, $interval, $http) {
                                  text: 'Monthly Daily Temperature Chart'
                              },
                              xAxis: {
-                                 categories: monthTimeArray
+                                 categories: timeArray
                              },
                              yAxis:[{
                                  lineWidth: 1,
