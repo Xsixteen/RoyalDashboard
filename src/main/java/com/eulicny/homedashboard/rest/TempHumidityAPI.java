@@ -90,7 +90,7 @@ public class TempHumidityAPI {
         Map<String, HashMap<Integer, MonthlyTemperature>> model     = new HashMap<>();
         boolean valueFound                                          = false;
         Long now = Instant.now().toEpochMilli();
-        List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000 * 60 * 60 * 24 * 365), now);
+        List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000L * 60 * 60 * 24 * 365), now);
         log.info("API - monthlystatistics result="+temperatureHumidityList.size());
 
         Calendar calendar = Calendar.getInstance();

@@ -177,6 +177,10 @@ app.controller('monthly', function($scope, $interval, $http) {
             var dailyLowArray      = [];
             var timeArray          = [];
 
+            var monthHighArray     = [];
+            var monthLowArray      = [];
+            var monthTimeArray     = [];
+
             for (var monthKey in monthlystatistics) {
                 if (monthlystatistics.hasOwnProperty(monthKey)) {
                     for (var dayKey in monthlystatistics[monthKey].dailyHigh) {
@@ -207,6 +211,50 @@ app.controller('monthly', function($scope, $interval, $http) {
 
                                 }
                             }
+                        }
+
+                    }
+                }
+            }
+
+            for (var monthKey in monthlystatistics) {
+                if (monthlystatistics.hasOwnProperty(monthKey)) {
+                    for (var dayKey in monthlystatistics[monthKey].dailyHigh) {
+                        if (monthlystatistics[monthKey].dailyHigh.hasOwnProperty(dayKey)) {
+                            monthTimeArray.push(monthKey);
+                            var count = 0;
+                            var sum   = 0;
+                            for (var specificDayKey in monthlystatistics[monthKey].dailyHigh[dayKey]) {
+                                if (monthlystatistics[monthKey].dailyHigh[dayKey].hasOwnProperty(specificDayKey)) {
+
+                                   var tempC              = monthlystatistics[monthKey].dailyHigh[dayKey][specificDayKey];
+                                   var tempF              = tempC * 9 / 5 + 32;
+                                   count ++;
+                                   sum = sum+tempF;
+
+                                }
+                            }
+                           monthHighArray.push(sum/count);
+
+                        }
+
+
+                    }
+                    for (var dayKey in monthlystatistics[monthKey].dailyLow) {
+                        if (monthlystatistics[monthKey].dailyLow.hasOwnProperty(dayKey)) {
+                            count = 0;
+                            sum   = 0;
+                            for (var specificDayKey in monthlystatistics[monthKey].dailyLow[dayKey]) {
+                                if (monthlystatistics[monthKey].dailyLow[dayKey].hasOwnProperty(specificDayKey)) {
+                                    var tempC              = monthlystatistics[monthKey].dailyLow[dayKey][specificDayKey];
+                                    var tempF              = tempC * 9 / 5 + 32;
+
+                                   count ++;
+                                   sum = sum+tempF;
+                                }
+                            }
+                            monthLowArray.push(sum/count);
+
                         }
 
                     }
@@ -248,7 +296,7 @@ app.controller('monthly', function($scope, $interval, $http) {
                                  text: 'Monthly Daily Temperature Chart'
                              },
                              xAxis: {
-                                 categories: timeArray
+                                 categories: monthTimeArray
                              },
                              yAxis:[{
                                  lineWidth: 1,
@@ -260,10 +308,10 @@ app.controller('monthly', function($scope, $interval, $http) {
 
                              series: [{
                                  name: 'High Temperature',
-                                 data: dailyHighArray
+                                 data: monthHighArray
                              },{
                                  name: 'Low Temperature',
-                                 data: dailyLowArray
+                                 data: monthLowArray
                              }]
              });
 
