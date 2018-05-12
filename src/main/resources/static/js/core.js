@@ -266,7 +266,7 @@ app.controller('monthly', function($scope, $interval, $http) {
 
 
 
-            Highcharts.chart('monthlyTempChart', {
+            Highcharts.chart('monthlyDailyTempChart', {
                              chart: {
                                 type: 'bar'
                              },
@@ -294,7 +294,7 @@ app.controller('monthly', function($scope, $interval, $http) {
              });
 
 
-             Highcharts.chart('monthlyDailyTempChart', {
+             Highcharts.chart('monthlyTempChart', {
                              title: {
                                  text: 'Monthly Daily Temperature Chart'
                              },
