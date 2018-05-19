@@ -187,6 +187,9 @@ app.controller('monthly', function($scope, $interval, $http) {
 
             for (var monthKey in monthlystatistics) {
                 if (monthlystatistics.hasOwnProperty(monthKey)) {
+                    monthTimeArray.push(monthKey);
+                    var count = 0;
+                    var sum   = 0;
                     for (var dayKey in monthlystatistics[monthKey].dailyHigh) {
                         if (monthlystatistics[monthKey].dailyHigh.hasOwnProperty(dayKey)) {
                             for (var specificDayKey in monthlystatistics[monthKey].dailyHigh[dayKey]) {
@@ -195,8 +198,9 @@ app.controller('monthly', function($scope, $interval, $http) {
                                    timeArray.push(monthKey + "-" + specificDayKey);
                                    var tempC              = monthlystatistics[monthKey].dailyHigh[dayKey][specificDayKey];
                                    var tempF              = tempC * 9 / 5 + 32;
-                                   
-                                   dailyHighArray.push(tempF);
+                                   count ++;
+                                   sum                    = sum+tempF;
+                                   dailyHighArray.push(tempF.toFixed(3));
 
                                 }
                             }
@@ -204,23 +208,31 @@ app.controller('monthly', function($scope, $interval, $http) {
 
 
                     }
+
+                    monthHighArray.push((sum/count).toFixed(3));
+
+                    count = 0;
+                    sum   = 0;
                     for (var dayKey in monthlystatistics[monthKey].dailyLow) {
                         if (monthlystatistics[monthKey].dailyLow.hasOwnProperty(dayKey)) {
                             for (var specificDayKey in monthlystatistics[monthKey].dailyLow[dayKey]) {
                                 if (monthlystatistics[monthKey].dailyLow[dayKey].hasOwnProperty(specificDayKey)) {
                                     var tempC              = monthlystatistics[monthKey].dailyLow[dayKey][specificDayKey];
                                     var tempF              = tempC * 9 / 5 + 32;
-                                   
-                                   dailyLowArray.push(tempF);
+                                    count ++;
+                                    sum = sum+tempF;
+                                    dailyLowArray.push(tempF.toFixed(3));
 
                                 }
                             }
                         }
 
                     }
+                    monthLowArray.push((sum/count).toFixed(3));
+
                 }
             }
-
+/**
             for (var monthKey in monthlystatistics) {
                 if (monthlystatistics.hasOwnProperty(monthKey)) {
                     monthTimeArray.push(monthKey);
@@ -243,7 +255,7 @@ app.controller('monthly', function($scope, $interval, $http) {
                         }
                     }
 
-                    monthHighArray.push(sum/count);
+                    monthHighArray.push((sum/count).toFixed(3));
 
                     count = 0;
                     sum   = 0;
@@ -263,11 +275,11 @@ app.controller('monthly', function($scope, $interval, $http) {
                         }
 
                     }
-                    monthLowArray.push(sum/count);
+                    monthLowArray.push((sum/count).toFixed(3));
 
                 }
             }
-
+**/
 
 
             Highcharts.chart('monthlyTempChart', {
