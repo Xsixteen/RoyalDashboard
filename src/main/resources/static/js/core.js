@@ -210,7 +210,7 @@ app.controller('monthly', function($scope, $interval, $http) {
                     }
                     var monthlyTempDecF      = (sum/count);
                     var monthlyTempDecFixedF = monthlyTempDecF.toFixed(3);
-                    var monthlyNumF          = new Number(monthlyTempDecFixedF);
+                    var monthlyNumF          = parseFloat(monthlyTempDecFixedF);
                     monthHighArray.push(monthlyNumF);
 
                     count = 0;
@@ -230,7 +230,10 @@ app.controller('monthly', function($scope, $interval, $http) {
                         }
 
                     }
-                    monthLowArray.push((sum/count));
+                    var monthlyTempDecF      = (sum/count);
+                    var monthlyTempDecFixedF = monthlyTempDecF.toFixed(3);
+                    var monthlyNumF          = parseFloat(monthlyTempDecFixedF);
+                    monthLowArray.push(monthlyNumF);
 
                 }
             }
