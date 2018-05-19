@@ -180,6 +180,10 @@ app.controller('monthly', function($scope, $interval, $http) {
             var monthHighArray     = [];
             var monthLowArray      = [];
             var monthTimeArray     = [];
+            var d                  = new Date(0);
+            var utcSeconds         = response.data.timestamp;
+            d.setUTCSeconds((utcSeconds/1000));
+            $scope.timestamp       = d.toString();
 
             for (var monthKey in monthlystatistics) {
                 if (monthlystatistics.hasOwnProperty(monthKey)) {

@@ -82,15 +82,15 @@ public class TempHumidityAPI {
 
 
     @RequestMapping("/api/"+CONST_API_TEMPHUMID+"/monthlystatistics")
-    public Map<String, HashMap<Integer, MonthlyTemperature>> monthStatistics() {
+    public Map<String, Object> monthStatistics() {
 
         MonthlyTemperature monthlyTemperature                       = null;
 
         HashMap<Integer, MonthlyTemperature> monthlyTemperatures    = new HashMap<>();
-        Map<String, HashMap<Integer, MonthlyTemperature>> model     = new HashMap<>();
+        Map<String, Object> model                                   = new HashMap<>();
         boolean valueFound                                          = false;
         Long now = Instant.now().toEpochMilli();
-        List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000L * 60 * 60 * 24 * 365), now);
+        List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000L * 60 * 60 * 24 * 365L), now);
         log.info("API - monthlystatistics result="+temperatureHumidityList.size());
 
         Calendar calendar = Calendar.getInstance();
@@ -160,6 +160,7 @@ public class TempHumidityAPI {
 
 
         model.put("monthlystatistics", monthlyTemperatures);
+        model.put("timestamp", System.currentTimeMillis());
 
         return model;
     }
