@@ -200,7 +200,11 @@ app.controller('monthly', function($scope, $interval, $http) {
                                    var tempF              = tempC * 9 / 5 + 32;
                                    count ++;
                                    sum                    = sum+tempF;
-                                   dailyHighArray.push(tempF);
+
+                                   var tempFString        = tempF.toFixed(3);
+                                   var tempFFloatF        = parseFloat(tempFString);
+
+                                   dailyHighArray.push(tempFFloatF);
 
                                 }
                             }
@@ -222,8 +226,13 @@ app.controller('monthly', function($scope, $interval, $http) {
                                     var tempC              = monthlystatistics[monthKey].dailyLow[dayKey][specificDayKey];
                                     var tempF              = tempC * 9 / 5 + 32;
                                     count ++;
-                                    sum = sum+tempF;
-                                    dailyLowArray.push(tempF);
+                                    sum                    = sum+tempF;
+
+
+                                    var tempFString        = tempF.toFixed(3);
+                                    var tempFFloatF        = parseFloat(tempFString);
+
+                                    dailyLowArray.push(tempFFloatF);
 
                                 }
                             }
