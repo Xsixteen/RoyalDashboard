@@ -2,22 +2,10 @@ var app = angular.module('royaldashboard', []);
 app.run(function($rootScope) {
 });
 
-function changeMenu (handle, name) {
-            if(name === "home") {
-                handle.menu-home-class    = "active";
-                handle.menu-monthly-class = "";
-            } else if (name === "monthly") {
-                handle.menu-monthly-class = "active";
-                handle.menu-home-class    = "";
-            }
-}
-
 
 app.controller('tempHumid', function($scope, $interval, $http) {
-    $scope.changeMenu = function() {
-        menuService.change($scope, "home");
-    }
-
+    handle.menu-home-class    = "active";
+    handle.menu-monthly-class = "";
     $scope.refreshData = function() {
     
      $http.get("api/powerutilization/current")
@@ -183,9 +171,8 @@ app.controller('tempHumid', function($scope, $interval, $http) {
 
 app.controller('monthly', function($scope, $interval, $http) {
 
-    $scope.changeMenu = function() {
-        menuService.change($scope,"home");
-    }
+    $scope.menu-monthly-class = "active";
+    $scope.menu-home-class    = "";
 
     $scope.monthlyData = function() {
 
