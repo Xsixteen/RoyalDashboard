@@ -1,13 +1,14 @@
 var app = angular.module('royaldashboard', []);
 app.run(function($rootScope) {
+    $rootScope.isActive = function( path ) {
+           var active = (path === "home");
+           return active;
+    };
 });
 
 
 app.controller('tempHumid', function($scope, $interval, $http) {
-    $scope.isActive = function( path ) {
-           var active = (path === "home");
-           return active;
-    };
+
     $scope.refreshData = function() {
     
      $http.get("api/powerutilization/current")
