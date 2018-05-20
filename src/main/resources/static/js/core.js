@@ -4,8 +4,10 @@ app.run(function($rootScope) {
 
 
 app.controller('tempHumid', function($scope, $interval, $http) {
-    $scope.menuhomeclass    = "active";
-    $scope.menumonthlyclass = "";
+    $scope.isActive = function( path ) {
+           var active = (path === "home");
+           return active;
+    };
     $scope.refreshData = function() {
     
      $http.get("api/powerutilization/current")
@@ -171,8 +173,10 @@ app.controller('tempHumid', function($scope, $interval, $http) {
 
 app.controller('monthly', function($scope, $interval, $http) {
 
-    $scope.menumonthlyclass = "active";
-    $scope.menuhomeclass    = "";
+    $scope.isActive = function( path ) {
+        var active = (path === "monthly");
+        return active;
+    };
 
     $scope.monthlyData = function() {
 
