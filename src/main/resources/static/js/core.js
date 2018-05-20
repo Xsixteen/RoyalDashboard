@@ -1,12 +1,13 @@
 var app = angular.module('royaldashboard', []);
-app.run(function($rootScope, $location) {
-    $rootScope.isActive = function( path ) {
-           return path === $location.path();
-    };
+app.run(function($rootScope, {
+
 });
 
 
-app.controller('tempHumid', function($scope, $interval, $http) {
+app.controller('tempHumid', function($scope, $interval, $http, $location) {
+    $scope.isActive = function( path ) {
+           return path === $location.path();
+    };
 
     $scope.refreshData = function() {
     
@@ -171,7 +172,10 @@ app.controller('tempHumid', function($scope, $interval, $http) {
      $scope.refreshData();
 });
 
-app.controller('monthly', function($scope, $interval, $http) {
+app.controller('monthly', function($scope, $interval, $http, $location) {
+    $scope.isActive = function( path ) {
+           return path === $location.path();
+    };
 
     $scope.isActive = function( path ) {
         var active = (path === "monthly");
