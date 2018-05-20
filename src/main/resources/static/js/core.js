@@ -1,7 +1,7 @@
 var app = angular.module('royaldashboard', []);
-app.run(function($rootScope, {
+app.run(function($rootScope) {
 
-}));
+});
 
 
 app.controller('tempHumid', function($scope, $interval, $http, $location) {
