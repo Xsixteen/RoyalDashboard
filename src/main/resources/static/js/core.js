@@ -2,9 +2,7 @@ var app = angular.module('royaldashboard', []);
 app.run(function($rootScope) {
 });
 
-app.factory('menuService', function() {
-    return {
-        change: function(handle, name) {
+function changeMenu (handle, name) {
             if(name === "home") {
                 handle.menu-home-class    = "active";
                 handle.menu-monthly-class = "";
@@ -12,9 +10,7 @@ app.factory('menuService', function() {
                 handle.menu-monthly-class = "active";
                 handle.menu-home-class    = "";
             }
-        }
-    };
-});
+}
 
 
 app.controller('tempHumid', function($scope, $interval, $http) {
