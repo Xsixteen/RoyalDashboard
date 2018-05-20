@@ -2,7 +2,26 @@ var app = angular.module('royaldashboard', []);
 app.run(function($rootScope) {
 });
 
+app.factory('menuService', function() {
+    return {
+        change: function(name) {
+            if(name == "home") {
+                $scope.menu-home-class    = "active";
+                $scope.menu-monthly-class = "";
+            } else if (name == "monthly") {
+                $scope.menu-monthly-class = "active";
+                $scope.menu-home-class    = "";
+            }
+        }
+    };
+});
+
+
 app.controller('tempHumid', function($scope, $interval, $http) {
+    $scope.changeMenu = function() {
+        menuService("home");
+    }
+
     $scope.refreshData = function() {
     
      $http.get("api/powerutilization/current")
@@ -167,6 +186,11 @@ app.controller('tempHumid', function($scope, $interval, $http) {
 });
 
 app.controller('monthly', function($scope, $interval, $http) {
+
+    $scope.changeMenu = function() {
+        menuService("home");
+    }
+
     $scope.monthlyData = function() {
 
      $http.get("api/temphumid/monthlystatistics")
