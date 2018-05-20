@@ -1,8 +1,7 @@
 var app = angular.module('royaldashboard', []);
-app.run(function($rootScope) {
+app.run(function($rootScope, $location) {
     $rootScope.isActive = function( path ) {
-           var active = (path === "home");
-           return active;
+           return path === $location.path();
     };
 });
 
