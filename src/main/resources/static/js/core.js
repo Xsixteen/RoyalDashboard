@@ -4,13 +4,13 @@ app.run(function($rootScope) {
 
 app.factory('menuService', function() {
     return {
-        change: function(name) {
-            if(name == "home") {
-                $scope.menu-home-class    = "active";
-                $scope.menu-monthly-class = "";
-            } else if (name == "monthly") {
-                $scope.menu-monthly-class = "active";
-                $scope.menu-home-class    = "";
+        change: function(handle, name) {
+            if(name === "home") {
+                handle.menu-home-class    = "active";
+                handle.menu-monthly-class = "";
+            } else if (name === "monthly") {
+                handle.menu-monthly-class = "active";
+                handle.menu-home-class    = "";
             }
         }
     };
@@ -19,7 +19,7 @@ app.factory('menuService', function() {
 
 app.controller('tempHumid', function($scope, $interval, $http) {
     $scope.changeMenu = function() {
-        menuService("home");
+        menuService.change($scope, "home");
     }
 
     $scope.refreshData = function() {
@@ -188,7 +188,7 @@ app.controller('tempHumid', function($scope, $interval, $http) {
 app.controller('monthly', function($scope, $interval, $http) {
 
     $scope.changeMenu = function() {
-        menuService("home");
+        menuService.change($scope,"home");
     }
 
     $scope.monthlyData = function() {
