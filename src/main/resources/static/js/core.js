@@ -6,6 +6,11 @@ app.run(function($rootScope) {
 app.controller('menucontroller', function($scope, $interval, $http, $location) {
 
     $scope.isActive = function( path ) {
+          if(!$location.absURL().includes(".html")) {
+            if(path == "index.html") {
+                return true;
+            }
+          }
           return $location.absUrl().includes(path);
     };
 });
