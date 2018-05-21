@@ -6,7 +6,7 @@ app.run(function($rootScope) {
 app.controller('menucontroller', function($scope, $interval, $http, $location) {
 
     $scope.isActive = function( path ) {
-          return path === $location.path();
+          return $location.absUrl().includes(path);
     };
 });
 
