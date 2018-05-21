@@ -3,11 +3,14 @@ app.run(function($rootScope) {
 
 });
 
+app.controller('menucontroller', function($scope, $interval, $http, $location) {
+
+    $scope.isActive = function( path ) {
+          return path === $location.path();
+    };
+});
 
 app.controller('tempHumid', function($scope, $interval, $http, $location) {
-    $scope.isActive = function( path ) {
-           return path === $location.path();
-    };
 
     $scope.refreshData = function() {
     
@@ -173,14 +176,6 @@ app.controller('tempHumid', function($scope, $interval, $http, $location) {
 });
 
 app.controller('monthly', function($scope, $interval, $http, $location) {
-    $scope.isActive = function( path ) {
-           return path === $location.path();
-    };
-
-    $scope.isActive = function( path ) {
-        var active = (path === "monthly");
-        return active;
-    };
 
     $scope.monthlyData = function() {
 
