@@ -46,6 +46,7 @@ public class ScheduledTasks {
             temperatureHumidityInsert.setHumidity(tempHumidSensor.getHumidity());
             temperatureHumidityInsert.setTemperature(tempHumidSensor.getTemperature());
             temperatureHumidityInsert.setCreated(date.toString());
+            temperatureHumidityInsert.setSensorId(1);
             tempHumidMongoRepo.insert(temperatureHumidityInsert);
         } catch (IOException e) {
             log.error("Error fetching temperature data=" + e.getMessage());

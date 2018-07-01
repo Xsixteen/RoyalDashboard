@@ -15,7 +15,8 @@ public class TempHumidity {
     Double temperature;
     Double humidity;
     String created;
-    
+    Integer sensorId;
+
     @Id
     private Long epochTime;
 
@@ -59,8 +60,15 @@ public class TempHumidity {
         this.created = created;
     }
 
-  
-    
+    public Integer getSensorId() {
+        return sensorId;
+    }
+
+    public void setSensorId(Integer sensorId) {
+        this.sensorId = sensorId;
+    }
+
+
     @Override
     public String toString() {
         return String.format(
