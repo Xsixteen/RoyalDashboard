@@ -46,11 +46,11 @@ body {
 	    </div>
 	    
 	    <br>
-	    <div class="well">
+	    <div class="well" ng-show="dataLoaded">
            <h2><i class="fa fa-bolt" aria-hidden="true"></i>Current Power Utilization</h2><h3>{{currPower}} kW</h3>
         </div>
         <br>
-	    <div class="well">
+	    <div class="well" ng-show="dataLoaded">
            <h2>Daily Temperature Chart</h2><br>
                 <div id="tempChart"></div>
            <br>
@@ -58,9 +58,10 @@ body {
            <h2>Daily Power Chart</h2><br>
                 <div id="powerChart"></div>
            <br>
+           <br>
+           <h5>LastUpdated: {{timestamp}}</h5>
         </div>
-        <br>
-	    <h5>LastUpdated: {{timestamp}}</h5>
+
 	  </div>   
 	 </div>
    </div>
