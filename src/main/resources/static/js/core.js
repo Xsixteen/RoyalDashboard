@@ -321,10 +321,10 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
 
         });
 
+        $scope.dataLoaded=true;
 
      }
 
      $scope.monthlyData();
-     $scope.dataLoaded=true;
 });
 
