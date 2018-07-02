@@ -32,14 +32,15 @@ body {
   <div ng-include="'menu.html'" class="ng-cloak"></div>
   <div class="container">
     <div class="starter-template">
-      <p class="text-center" ng-hide="dataLoaded">
-            <i class="fa fa-spinner fa-spin"></i>
-      </p>
-      <div ng-controller="monthly" ng-cloak class="ng-cloak" ng-show="dataLoaded">
+
+      <div ng-controller="monthly" ng-cloak class="ng-cloak">
+
 	    <h1>Monthly Statistics</h1>
 	    <br>
-
-	    <div class="well">
+        <p class="text-center" ng-hide="dataLoaded">
+              <i class="fa fa-spinner fa-spin"></i>
+        </p>
+	    <div class="well" ng-show="dataLoaded">
            <h2>Monthly Daily Temperature Chart</h2><br>
                 <div id="monthlyDailyTempChart"></div>
            <br>
