@@ -316,12 +316,14 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
                              }]
              });
 
+
+
         });
 
 
      }
 
      $scope.monthlyData();
-
+     $scope.dataLoaded=true;
 });
 
