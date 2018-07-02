@@ -34,9 +34,8 @@ public class ScheduledTasks {
     
     @Value("${powerHost}")
     private String powerHost;
-    
-    private final int CONST_TIMER_SECONDS   = 60000*5;
-    @Scheduled(fixedRate = CONST_TIMER_SECONDS)
+    private final int CONST_TIMER_MINUTES   = 10;
+    @Scheduled(fixedRate = CONST_TIMER_MINUTES*60000)
     public void reportTempAndHumidity() {
         tempHumidSensor.initialize();
         Date date = new Date();
@@ -55,7 +54,7 @@ public class ScheduledTasks {
         
     }
     
-    @Scheduled(fixedRate = CONST_TIMER_SECONDS)
+    @Scheduled(fixedRate = CONST_TIMER_MINUTES*60000)
     public void reportPowerUtilization() {
         Date date = new Date();
         PowerUtilization powerUtilizationInsert = new PowerUtilization();
