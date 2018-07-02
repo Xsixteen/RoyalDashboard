@@ -181,6 +181,7 @@ app.controller('tempHumid', function($scope, $interval, $http, $location) {
 });
 
 app.controller('monthly', function($scope, $interval, $http, $location) {
+    $scope.dataLoaded=false;
 
     $scope.monthlyData = function() {
 
