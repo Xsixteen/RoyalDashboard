@@ -16,8 +16,9 @@ app.controller('menucontroller', function($scope, $interval, $http, $location) {
 });
 
 app.controller('tempHumid', function($scope, $interval, $http, $location) {
+     $scope.dataLoaded=false;
 
-    $scope.refreshData = function() {
+     $scope.refreshData = function() {
     
      $http.get("api/powerutilization/current")
         .then(function(response) {
@@ -97,7 +98,7 @@ app.controller('tempHumid', function($scope, $interval, $http, $location) {
                 }]
           });
        
-   
+            $scope.dataLoaded=true;
         });
         
         

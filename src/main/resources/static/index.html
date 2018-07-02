@@ -35,7 +35,10 @@ body {
       <div ng-controller="tempHumid" ng-cloak class="ng-cloak">
 	    <h1>Home Dashboard</h1>
 	    <br>
-	    <div class="well">
+        <p class="text-center" ng-hide="dataLoaded">
+            <i class="fa fa-spinner fa-spin"></i>
+        </p>
+	    <div class="well" ng-show="dataLoaded">
 	       <h2>Temperature</h2><h3>{{temperatureC}} &deg;C<br> {{temperatureF}} &deg;F</h3><br>
 	       <h2>Relative Humidity</h2><h3>{{humidity}} %</h3>
 	    </div>
