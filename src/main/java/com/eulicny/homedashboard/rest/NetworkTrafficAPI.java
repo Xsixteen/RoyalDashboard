@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RestController
 public class NetworkTrafficAPI {
-    private String CONST_ROUTERURL = "192.168.1.1/update.cgi";
+    private String CONST_ROUTERURL = "http://192.168.1.1/update.cgi";
 
     @RequestMapping("/api/network/current")
     public Map<String,Object> network() {
