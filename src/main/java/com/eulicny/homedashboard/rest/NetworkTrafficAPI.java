@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
@@ -26,8 +27,8 @@ public class NetworkTrafficAPI {
     private String authCode;
 
     @RequestMapping("/api/network/current")
-    public Map<String,Object> network() {
-        Map<String,Object> model = new HashMap<String,Object>();
+    public Map<String,String> network() {
+        HashMap<String, String> networkDataJson = new HashMap<>();
         try {
             String token   = login(CONST_LOGINURL, authCode);
             Long epoch1    = System.currentTimeMillis();
@@ -35,19 +36,43 @@ public class NetworkTrafficAPI {
             Thread.sleep(10000);
             Long epoch2    = System.currentTimeMillis();
             String result2 = retrieveDataFromRouter(CONST_ROUTERURL, token);
+
+            BigInteger epoch1Big = BigInteger.valueOf(epoch1);
+            BigInteger epoch2Big = BigInteger.valueOf(epoch2);
+
             HashMap<String,String> result1Hash = parseResults(result1);
             HashMap<String,String> result2Hash = parseResults(result2);
 
-           // Long rx        =
-            model.put("hash1", result1Hash);
-            model.put("hash2", result2Hash);
+            BigInteger rx1    = new BigInteger(result1Hash.get("rx"),16);
+            BigInteger tx1    = new BigInteger(result1Hash.get("tx"),16);
+
+            BigInteger rx2    = new BigInteger(result1Hash.get("rx"),16);
+            BigInteger tx2    = new BigInteger(result1Hash.get("tx"),16);
+
+            BigInteger rxDiff = rx2.subtract(rx1);
+            BigInteger txDiff = tx2.subtract(tx1);
+
+            BigInteger rxRate = rxDiff.divide(epoch2Big.subtract(epoch1Big));
+            BigInteger txRate = txDiff.divide(epoch2Big.subtract(epoch1Big));
+
+            networkDataJson.put("poll1rx", result1Hash.get("rx"));
+            networkDataJson.put("poll1tx", result1Hash.get("tx"));
+            networkDataJson.put("poll2rx", result2Hash.get("rx"));
+            networkDataJson.put("poll2tx", result2Hash.get("tx"));
+
+            networkDataJson.put("rxbytes", rxDiff.toString());
+            networkDataJson.put("txbytes", txDiff.toString());
+
+            networkDataJson.put("rxrateBytes", rxRate.toString());
+            networkDataJson.put("txrateBytes", txRate.toString());
+
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        return model;
+        return networkDataJson;
     }
 
     /**
