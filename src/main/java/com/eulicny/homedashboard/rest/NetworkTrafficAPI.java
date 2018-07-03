@@ -70,9 +70,9 @@ public class NetworkTrafficAPI {
             if(segment.contains("INTERNET")) {
                 String[] dataChunks = segment.split(":");
                 String rx = dataChunks[2];
-                String tx = dataChunks[4];
-                transmissionHash.put("rx", rx);
-                transmissionHash.put("tx",tx);
+                String tx = dataChunks[3];
+                transmissionHash.put("rx", rx.substring(0, rx.indexOf(",")));
+                transmissionHash.put("tx",tx.substring(0, tx.indexOf("}")));
             }
         }
 
