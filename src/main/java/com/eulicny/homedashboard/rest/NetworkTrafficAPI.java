@@ -136,7 +136,8 @@ public class NetworkTrafficAPI {
      * @throws IOException
      */
     private String login(String url, String authCode) throws IOException {
-        URL obj = new URL(url);
+        String token    = "";
+        URL obj         = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         String postBody = "group_id=&action_mode=&action_script=&action_wait=5&current_page=Main_Login.asp&next_page=index.asp&login_authorization="+authCode;
         //add request header
@@ -163,9 +164,15 @@ public class NetworkTrafficAPI {
         }
         in.close();
 
-        String token = con.getHeaderField("asus_token");
-        if(token.isEmpty() || token == null) {
+        String tokenResponse = con.getHeaderField("Set-Cookie");
+        if(tokenResponse == null) {
             log.error("Failed to get Token!");
+        } else {
+            String[] tokenParts    = tokenResponse.split("=");
+            token                  = tokenParts[1];
+            tokenParts             = token.split(";");
+            token                  = tokenParts[0];
+
         }
 
         return token;
