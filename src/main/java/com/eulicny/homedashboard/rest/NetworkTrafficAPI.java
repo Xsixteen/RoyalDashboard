@@ -1,5 +1,8 @@
 package com.eulicny.homedashboard.rest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,16 +18,23 @@ import java.util.Map;
 @RestController
 public class NetworkTrafficAPI {
     private String CONST_ROUTERURL = "http://192.168.1.1/update.cgi";
+    private String CONST_LOGINURL  = "http://192.168.1.1/login.cgi";
+
+    private static final Logger log = LoggerFactory.getLogger(NetworkTrafficAPI.class);
+
+    @Value("${authCode}")
+    private String authCode;
 
     @RequestMapping("/api/network/current")
     public Map<String,Object> network() {
         Map<String,Object> model = new HashMap<String,Object>();
         try {
+            String token   = login(CONST_LOGINURL, authCode);
             Long epoch1    = System.currentTimeMillis();
-            String result1 = retrieveDataFromRouter(CONST_ROUTERURL);
+            String result1 = retrieveDataFromRouter(CONST_ROUTERURL, token);
             Thread.sleep(10000);
             Long epoch2    = System.currentTimeMillis();
-            String result2 = retrieveDataFromRouter(CONST_ROUTERURL);
+            String result2 = retrieveDataFromRouter(CONST_ROUTERURL, token);
             HashMap<String,String> result1Hash = parseResults(result1);
             HashMap<String,String> result2Hash = parseResults(result2);
 
@@ -70,7 +80,14 @@ public class NetworkTrafficAPI {
 
     }
 
-    private String retrieveDataFromRouter(String url) throws IOException {
+    /**
+     * Retrieves token
+     * @param url
+     * @param token
+     * @return
+     * @throws IOException
+     */
+    private String retrieveDataFromRouter(String url, String token) throws IOException {
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         String postBody = "output=netdev&_http_id=TIDe855a6487043d70a";
@@ -82,7 +99,7 @@ public class NetworkTrafficAPI {
         con.setRequestProperty("Accept", "*/*");
         con.setRequestProperty("Referer", "http://192.168.1.1/Main_TrafficMonitor_realtime.asp");
         con.setRequestProperty("Accept-Language", "en-US,en;q=0.9");
-        con.setRequestProperty("Cookie", "traffic_warning_NaN=2018.6:1; wireless_list_14:DD:A9:F2:75:8C_temp=<AC:37:43:4B:0A:57>Yes<B8:E8:56:35:B5:70>Yes<50:1A:C5:C5:27:DB>Yes<DC:68:EB:64:5C:95>Yes<C8:3A:6B:D9:EC:AE>Yes<18:B4:30:04:B5:EA>Yes<98:01:A7:26:32:C9>Yes<B8:27:EB:91:D7:F9>Yes; bw_rtab=INTERNET; asus_token=5511619979413794739867712182367; bw_24tab=INTERNET; bw_24refresh=1");
+        con.setRequestProperty("Cookie", "traffic_warning_NaN=2018.6:1; wireless_list_14:DD:A9:F2:75:8C_temp=<AC:37:43:4B:0A:57>Yes<B8:E8:56:35:B5:70>Yes<50:1A:C5:C5:27:DB>Yes<DC:68:EB:64:5C:95>Yes<C8:3A:6B:D9:EC:AE>Yes<18:B4:30:04:B5:EA>Yes<98:01:A7:26:32:C9>Yes<B8:27:EB:91:D7:F9>Yes; bw_rtab=INTERNET; asus_token="+token+"; bw_24tab=INTERNET; bw_24refresh=1");
 
         // Send post request
         con.setDoOutput(true);
@@ -109,5 +126,48 @@ public class NetworkTrafficAPI {
         //print result
         System.out.println(response.toString());
         return response.toString();
+    }
+
+    /**
+     * Function logs into the router and retrieves token
+     * @param url
+     * @param authCode
+     * @return
+     * @throws IOException
+     */
+    private String login(String url, String authCode) throws IOException {
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        String postBody = "group_id=&action_mode=&action_script=&action_wait=5&current_page=Main_Login.asp&next_page=index.asp&login_authorization="+authCode;
+        //add request header
+        con.setRequestMethod("POST");
+
+        // Send post request
+        con.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        wr.writeBytes(postBody);
+        wr.flush();
+        wr.close();
+
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'POST' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        String token = con.getHeaderField("asus_token");
+        if(token.isEmpty() || token == null) {
+            log.error("Failed to get Token!");
+        }
+
+        return token;
     }
 }
