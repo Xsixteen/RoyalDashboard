@@ -1,15 +1,13 @@
 package com.eulicny.homedashboard.rest;
 
-import com.ericulicny.power.PowerRequest;
-import com.ericulicny.power.PowerUtilizationConstants;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,7 +72,7 @@ public class NetworkTrafficAPI {
 
     private String retrieveDataFromRouter(String url) throws IOException {
         URL obj = new URL(url);
-        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         String postBody = "output=netdev&_http_id=TIDe855a6487043d70a";
         //add request header
         con.setRequestMethod("POST");
