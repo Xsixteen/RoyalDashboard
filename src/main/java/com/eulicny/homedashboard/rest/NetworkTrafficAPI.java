@@ -68,8 +68,8 @@ public class NetworkTrafficAPI {
 
         HashMap<String,String> transmissionHash     = new HashMap<>();
 
-        transmissionHash.put("rx", segment.substring(segment.indexOf("rx:",segment.indexOf(","))));
-        transmissionHash.put("tx", segment.substring(segment.indexOf("tx:"), segment.indexOf("}")));
+        transmissionHash.put("rx", segment.substring(segment.indexOf("'INTERNET':{rx:")+15,segment.indexOf(",")));
+        transmissionHash.put("tx", segment.substring(segment.indexOf("tx:")+3, segment.indexOf("}")));
 
         return transmissionHash;
 
