@@ -63,18 +63,13 @@ public class NetworkTrafficAPI {
      * @return
      */
     private HashMap<String,String> parseResults(String input) {
-        String[] segments                           = input.split(",");
+
+        String segment = input.substring(input.indexOf("'INTERNET'"), input.indexOf("}"));
+
         HashMap<String,String> transmissionHash     = new HashMap<>();
 
-        for(String segment : segments) {
-            if(segment.contains("INTERNET")) {
-                String[] dataChunks = segment.split(":");
-                String rx = dataChunks[2];
-                String tx = dataChunks[3];
-                transmissionHash.put("rx", rx.substring(0, rx.indexOf(",")));
-                transmissionHash.put("tx",tx.substring(0, tx.indexOf("}")));
-            }
-        }
+        transmissionHash.put("rx", segment.substring(segment.indexOf("rx:",segment.indexOf(","))));
+        transmissionHash.put("tx", segment.substring(segment.indexOf("tx:")));
 
         return transmissionHash;
 
