@@ -64,12 +64,12 @@ public class NetworkTrafficAPI {
      */
     private HashMap<String,String> parseResults(String input) {
 
-        String segment = input.substring(input.indexOf("'INTERNET'"), input.indexOf("}"));
+        String segment = input.substring(input.indexOf("'INTERNET'"));
 
         HashMap<String,String> transmissionHash     = new HashMap<>();
 
         transmissionHash.put("rx", segment.substring(segment.indexOf("rx:",segment.indexOf(","))));
-        transmissionHash.put("tx", segment.substring(segment.indexOf("tx:")));
+        transmissionHash.put("tx", segment.substring(segment.indexOf("tx:"), segment.indexOf("}")));
 
         return transmissionHash;
 
