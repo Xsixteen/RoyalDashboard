@@ -17,7 +17,8 @@ app.controller('menucontroller', function($scope, $interval, $http, $location) {
 
 app.controller('tempHumid', function($scope, $interval, $http, $location) {
      $scope.dataLoaded         = false;
-     $scope.intialNetworkLoad  = true;
+     $scope.intialNetText      = true;
+
      $scope.refreshNetworkData = function() {
           if($scope.dataLoaded) {
             $scope.networkLoading = false;
@@ -31,7 +32,7 @@ app.controller('tempHumid', function($scope, $interval, $http, $location) {
                  $scope.rxNetworkUsage    = rxbps;
                  $scope.txNetworkUsage    = txbps;
                  $scope.networkLoading    = true;
-                 $scope.intialNetworkLoad = false;
+                 $scope.intialNetText     = false;
           });
      }
 
