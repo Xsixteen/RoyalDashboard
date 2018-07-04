@@ -43,11 +43,11 @@ public class NetworkTrafficAPI {
             HashMap<String,String> result1Hash = parseResults(result1);
             HashMap<String,String> result2Hash = parseResults(result2);
 
-            BigInteger rx1    = new BigInteger(result1Hash.get("rx").substring(2),16);
-            BigInteger tx1    = new BigInteger(result1Hash.get("tx").substring(2),16);
+            BigInteger rx1    = new BigInteger(result1Hash.get("rx"),16);
+            BigInteger tx1    = new BigInteger(result1Hash.get("tx"),16);
 
-            BigInteger rx2    = new BigInteger(result1Hash.get("rx").substring(2),16);
-            BigInteger tx2    = new BigInteger(result1Hash.get("tx").substring(2),16);
+            BigInteger rx2    = new BigInteger(result1Hash.get("rx"),16);
+            BigInteger tx2    = new BigInteger(result1Hash.get("tx"),16);
 
             BigInteger rxDiff = rx2.subtract(rx1);
             BigInteger txDiff = tx2.subtract(tx1);

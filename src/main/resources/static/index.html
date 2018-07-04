@@ -45,7 +45,14 @@ body {
 	       <h2>Relative Humidity</h2><h3>{{humidity}} %</h3>
 	    </div>
 	    
-	    <br>
+	   <br>
+          <div class="well" ng-show="dataLoaded">
+            <h2><i class="fa fa-bolt" aria-hidden="true"></i>Current Network Utilization</h2>
+              <p class="text-center" ng-hide="networkLoading">
+                  <i class="fa fa-spinner fa-spin" ng-show="networkLoading"></i>
+              </p><h3>{{networkUsage}} kW</h3>
+          </div>
+        <br>
 	    <div class="well" ng-show="dataLoaded">
            <h2><i class="fa fa-bolt" aria-hidden="true"></i>Current Power Utilization</h2><h3>{{currPower}} kW</h3>
         </div>
