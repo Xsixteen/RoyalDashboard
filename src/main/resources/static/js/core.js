@@ -20,11 +20,9 @@ app.controller('tempHumid', function($scope, $interval, $http, $location) {
      $scope.intialNetText      = true;
 
      $scope.refreshNetworkData = function() {
-          if($scope.dataLoaded) {
-            $scope.networkLoading = false;
-          } else {
-            $scope.networkLoading = true;
-          }
+
+          $scope.networkLoading = false;
+
           $http.get("api/network/current")
              .then(function(response) {
                  var rxbps                = response.data.rxrateBytes;
@@ -117,7 +115,6 @@ app.controller('tempHumid', function($scope, $interval, $http, $location) {
           });
        
             $scope.dataLoaded     = true;
-            $scope.networkLoading = false;
         });
         
         
