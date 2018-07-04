@@ -42,12 +42,18 @@ public class NetworkTrafficAPI {
 
             HashMap<String,String> result1Hash = parseResults(result1);
             HashMap<String,String> result2Hash = parseResults(result2);
+            String rx1s                        = result1Hash.get("rx");
+            String rx2s                        = result2Hash.get("rx");
 
-            BigInteger rx1    = new BigInteger(result1Hash.get("rx"),16);
-            BigInteger tx1    = new BigInteger(result1Hash.get("tx"),16);
+            String tx1s                        = result1Hash.get("tx");
+            String tx2s                        = result2Hash.get("tx");
 
-            BigInteger rx2    = new BigInteger(result1Hash.get("rx"),16);
-            BigInteger tx2    = new BigInteger(result1Hash.get("tx"),16);
+            log.info("rx1=" + rx1s + " tx1="+tx1s +" rx2=" + rx2s + " tx2=" +tx2s);
+            BigInteger rx1    = new BigInteger(rx1s, 16);
+            BigInteger tx1    = new BigInteger(tx1s, 16);
+
+            BigInteger rx2    = new BigInteger(rx2s, 16);
+            BigInteger tx2    = new BigInteger(tx2s, 16);
 
             BigInteger rxDiff = rx2.subtract(rx1);
             BigInteger txDiff = tx2.subtract(tx1);
