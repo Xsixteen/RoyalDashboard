@@ -31,14 +31,9 @@ public class NetworkTrafficAPI {
         HashMap<String, String> networkDataJson = new HashMap<>();
         try {
             String token   = login(CONST_LOGINURL, authCode);
-            Long epoch1    = System.currentTimeMillis();
             String result1 = retrieveDataFromRouter(CONST_ROUTERURL, token);
             Thread.sleep(10000);
-            Long epoch2    = System.currentTimeMillis();
             String result2 = retrieveDataFromRouter(CONST_ROUTERURL, token);
-
-            BigInteger epoch1Big = BigInteger.valueOf(epoch1);
-            BigInteger epoch2Big = BigInteger.valueOf(epoch2);
 
             HashMap<String,String> result1Hash = parseResults(result1);
             HashMap<String,String> result2Hash = parseResults(result2);
@@ -58,8 +53,8 @@ public class NetworkTrafficAPI {
             BigInteger rxDiff = rx2.subtract(rx1);
             BigInteger txDiff = tx2.subtract(tx1);
 
-            Double rxRate     = (double) rxDiff.longValue() / (epoch2 - epoch1);
-            Double txRate     = (double) txDiff.longValue() / (epoch2 - epoch1);
+            Double rxRate     = (double) rxDiff.longValue() / 10;
+            Double txRate     = (double) txDiff.longValue() / 10;
 
 
 
