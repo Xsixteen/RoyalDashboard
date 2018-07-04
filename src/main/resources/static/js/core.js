@@ -18,6 +18,22 @@ app.controller('menucontroller', function($scope, $interval, $http, $location) {
 app.controller('tempHumid', function($scope, $interval, $http, $location) {
      $scope.dataLoaded=false;
 
+     $scope.refreshNetworkData = function() {
+          if($scope.dataLoaded) {
+            $scope.networkLoading = true;
+          } else {
+            $scope.networkLoading = false;
+          }
+          $http.get("api/network/current")
+             .then(function(response) {
+                 var rxbps             = response.rxrateBytes;
+                 var txbps             = response.txrateBytes;
+                 $scope.rxNetworkUsage = rxbps;
+                 $scope.txNetworkUsage = txbps;
+                 $scope.networkLoading = false;
+             });
+     }
+
      $scope.refreshData = function() {
     
      $http.get("api/powerutilization/current")
@@ -98,7 +114,8 @@ app.controller('tempHumid', function($scope, $interval, $http, $location) {
                 }]
           });
        
-            $scope.dataLoaded=true;
+            $scope.dataLoaded     = true;
+            $scope.networkLoading = true;
         });
         
         
@@ -177,6 +194,10 @@ app.controller('tempHumid', function($scope, $interval, $http, $location) {
      $interval(function() {
         $scope.refreshData();        
      }, 120000);
+
+     $interval(function() {
+        $scope.refreshNetworkData();
+     }, 300000);
      
      $scope.refreshData();
 });

@@ -50,7 +50,8 @@ body {
             <h2><i class="fa fa-bolt" aria-hidden="true"></i>Current Network Utilization</h2>
               <p class="text-center" ng-hide="networkLoading">
                   <i class="fa fa-spinner fa-spin" ng-show="networkLoading"></i>
-              </p><h3>{{networkUsage}} kW</h3>
+              </p><h3>Rx: {{rxNetworkUsage}} bytes per second</h3>
+              <h3>Tx: {{rxNetworkUsage}} Bytes per second</h3>
           </div>
         <br>
 	    <div class="well" ng-show="dataLoaded">
