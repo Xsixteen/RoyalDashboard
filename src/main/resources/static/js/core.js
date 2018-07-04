@@ -29,8 +29,8 @@ app.controller('tempHumid', function($scope, $interval, $http, $location) {
              .then(function(response) {
                  var rxbps                = response.data.rxrateBytes;
                  var txbps                = response.data.txrateBytes;
-                 $scope.rxNetworkUsage    = (rxbps.round())/1000;
-                 $scope.txNetworkUsage    = (txbps.round())/1000;
+                 $scope.rxNetworkUsage    = Math.round(rxbps)/1000;
+                 $scope.txNetworkUsage    = Math.round(txbps)/1000;
                  $scope.networkLoading    = true;
                  $scope.intialNetText     = false;
           });
