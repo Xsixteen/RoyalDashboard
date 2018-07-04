@@ -58,8 +58,10 @@ public class NetworkTrafficAPI {
             BigInteger rxDiff = rx2.subtract(rx1);
             BigInteger txDiff = tx2.subtract(tx1);
 
-            BigInteger rxRate = rxDiff.divide(epoch2Big.subtract(epoch1Big));
-            BigInteger txRate = txDiff.divide(epoch2Big.subtract(epoch1Big));
+            Double rxRate     = (double) rxDiff.longValue() / (epoch2 - epoch1);
+            Double txRate     = (double) txDiff.longValue() / (epoch2 - epoch1);
+
+
 
             networkDataJson.put("poll1rx", result1Hash.get("rx"));
             networkDataJson.put("poll1tx", result1Hash.get("tx"));
