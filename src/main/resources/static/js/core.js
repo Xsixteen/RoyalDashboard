@@ -20,9 +20,9 @@ app.controller('tempHumid', function($scope, $interval, $http, $location) {
 
      $scope.refreshNetworkData = function() {
           if($scope.dataLoaded) {
-            $scope.networkLoading = true;
-          } else {
             $scope.networkLoading = false;
+          } else {
+            $scope.networkLoading = true;
           }
           $http.get("api/network/current")
              .then(function(response) {
@@ -30,8 +30,8 @@ app.controller('tempHumid', function($scope, $interval, $http, $location) {
                  var txbps             = response.txrateBytes;
                  $scope.rxNetworkUsage = rxbps;
                  $scope.txNetworkUsage = txbps;
-                 $scope.networkLoading = false;
-             });
+                 $scope.networkLoading = true;
+          });
      }
 
      $scope.refreshData = function() {
@@ -115,7 +115,7 @@ app.controller('tempHumid', function($scope, $interval, $http, $location) {
           });
        
             $scope.dataLoaded     = true;
-            $scope.networkLoading = true;
+            $scope.networkLoading = false;
         });
         
         
@@ -200,6 +200,7 @@ app.controller('tempHumid', function($scope, $interval, $http, $location) {
      }, 300000);
      
      $scope.refreshData();
+     $scope.refreshNetworkData();
 });
 
 app.controller('monthly', function($scope, $interval, $http, $location) {
