@@ -49,11 +49,11 @@ public class NetworkTrafficAPI {
             String tx2s                        = result2Hash.get("tx");
 
             log.info("rx1=" + rx1s + " tx1="+tx1s +" rx2=" + rx2s + " tx2=" +tx2s);
-            BigInteger rx1    = new BigInteger(rx1s, 16);
-            BigInteger tx1    = new BigInteger(tx1s, 16);
+            BigInteger rx1    = new BigInteger(rx1s.substring(2), 16);
+            BigInteger tx1    = new BigInteger(tx1s.substring(2), 16);
 
-            BigInteger rx2    = new BigInteger(rx2s, 16);
-            BigInteger tx2    = new BigInteger(tx2s, 16);
+            BigInteger rx2    = new BigInteger(rx2s.substring(2), 16);
+            BigInteger tx2    = new BigInteger(tx2s.substring(2), 16);
 
             BigInteger rxDiff = rx2.subtract(rx1);
             BigInteger txDiff = tx2.subtract(tx1);
