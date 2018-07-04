@@ -16,8 +16,8 @@ app.controller('menucontroller', function($scope, $interval, $http, $location) {
 });
 
 app.controller('tempHumid', function($scope, $interval, $http, $location) {
-     $scope.dataLoaded=false;
-
+     $scope.dataLoaded         = false;
+     $scope.intialNetworkLoad  = true;
      $scope.refreshNetworkData = function() {
           if($scope.dataLoaded) {
             $scope.networkLoading = false;
@@ -26,11 +26,12 @@ app.controller('tempHumid', function($scope, $interval, $http, $location) {
           }
           $http.get("api/network/current")
              .then(function(response) {
-                 var rxbps             = response.rxrateBytes;
-                 var txbps             = response.txrateBytes;
-                 $scope.rxNetworkUsage = rxbps;
-                 $scope.txNetworkUsage = txbps;
-                 $scope.networkLoading = true;
+                 var rxbps                = response.data.rxrateBytes;
+                 var txbps                = response.data.txrateBytes;
+                 $scope.rxNetworkUsage    = rxbps;
+                 $scope.txNetworkUsage    = txbps;
+                 $scope.networkLoading    = true;
+                 $scope.intialNetworkLoad = false;
           });
      }
 
