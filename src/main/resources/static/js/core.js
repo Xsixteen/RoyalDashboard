@@ -245,7 +245,7 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
                                    var tempFString        = tempF.toFixed(3);
                                    var tempFFloatF        = parseFloat(tempFString);
 
-                                   var maxTempC           = monthlystatistics[monthKey].monthlyStats.MaxMonthlyHigh
+                                   var maxTempC           = monthlystatistics[monthKey].monthlyStats.MonthlyHigh
                                    var maxTempF           = maxTempC * 9 / 5 + 32;
                                    var maxTempFString     = maxTempF.toFixed(3);
                                    var maxTempFFloat      = parseFloat(maxTempFString);
@@ -277,7 +277,7 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
                                     var tempFString        = tempF.toFixed(3);
                                     var tempFFloatF        = parseFloat(tempFString);
 
-                                    var minTempC           = monthlystatistics[monthKey].monthlyStats.MaxMonthlyLow
+                                    var minTempC           = monthlystatistics[monthKey].monthlyStats.MonthlyLow
                                     var minTempF           = minTempC * 9 / 5 + 32;
                                     var minTempFString     = minTempF.toFixed(3);
                                     var minTempFFloat      = parseFloat(minTempFString);
@@ -340,7 +340,7 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
 
              Highcharts.chart('monthlyDailyTempChart', {
                              title: {
-                                 text: 'Monthly Daily Temperature Chart'
+                                 text: 'Monthly Daily Average Temperature Chart'
                              },
                              xAxis: {
                                  categories: timeArray
@@ -355,7 +355,8 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
 
                              series: [{
                                  name: 'Monthly High Temperature',
-                                 data: dailyAbsHighArray
+                                 data: dailyAbsHighArray,
+                                 marker: { enabled: false }
                              },{
                                  name: 'Daily High Temperature',
                                  data: dailyHighArray
@@ -364,7 +365,8 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
                                  data: dailyLowArray
                              },{
                                   name: 'Monthly Low Temperature',
-                                  data: dailyAbsLowArray
+                                  data: dailyAbsLowArray,
+                                  marker: { enabled: false }
                              }]
              });
 

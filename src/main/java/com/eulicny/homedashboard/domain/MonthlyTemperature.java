@@ -30,14 +30,19 @@ public class MonthlyTemperature {
                 if(dailyHighValue.get(value) > dailyHighMaxValue) {
                     dailyHighMaxValue = dailyHighValue.get(value);
                 }
-                if(dailyHighValue.get(value) < dailyHighMinValue) {
-                    dailyHighMinValue = dailyHighValue.get(value);
+            }
+        }
+
+        for(HashMap<Integer,Double>dailyLowValue : dailyLow) {
+            for (Integer value : dailyLowValue.keySet()) {
+                if(dailyLowValue.get(value) < dailyHighMinValue) {
+                    dailyHighMinValue = dailyLowValue.get(value);
                 }
             }
         }
 
-        monthlyStats.put("MaxMonthlyHigh", dailyHighMaxValue);
-        monthlyStats.put("MaxMonthlyLow",  dailyHighMinValue);
+        monthlyStats.put("MonthlyHigh", dailyHighMaxValue);
+        monthlyStats.put("MonthlyLow",  dailyHighMinValue);
 
         return monthlyStats;
     }
