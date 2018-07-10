@@ -213,6 +213,8 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
 
             var dailyHighArray     = [];
             var dailyLowArray      = [];
+            var dailyAbsHighArray  = [];
+            var dailyAbsLowArray   = [];
             var timeArray          = [];
             var monthAbsHighArray  = [];
             var monthAbsLowArray   = [];
@@ -244,7 +246,7 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
                                    var tempFFloatF        = parseFloat(tempFString);
 
                                    dailyHighArray.push(tempFFloatF);
-
+                                   dailyAbsHighArray.push(monthlystatistics[monthKey].monthlyStats.MaxMonthlyHigh));
                                 }
                             }
                         }
@@ -272,7 +274,7 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
                                     var tempFFloatF        = parseFloat(tempFString);
 
                                     dailyLowArray.push(tempFFloatF);
-
+                                    dailyAbsLowArray.push(monthlystatistics[monthKey].monthlyStats.MaxMonthlyLow);
                                 }
                             }
                         }
@@ -284,8 +286,8 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
                     monthLowArray.push(monthlyNumF);
 
                     //FullMonth High Lows
-                    monthAbsHighArray        = monthlystatistics[monthKey].monthlyStats.MaxMonthlyHigh;
-                    monthAbsLowArray         = monthlystatistics[monthKey].monthlyStats.MaxMonthlyLow;
+                    monthAbsHighArray.push(monthlystatistics[monthKey].monthlyStats.MaxMonthlyHigh);
+                    monthAbsLowArray.push(monthlystatistics[monthKey].monthlyStats.MaxMonthlyLow);
                 }
             }
 
@@ -320,7 +322,7 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
                                  name: 'Avg Low Temperature',
                                  data: monthLowArray
                              },{
-                                 name: ' Low Temperature',
+                                 name: 'Low Temperature',
                                  data: monthAbsLowArray
                              }]
              });
@@ -342,11 +344,17 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
                              }],
 
                              series: [{
-                                 name: 'High Temperature',
+                                 name: 'Monthly High Temperature',
+                                 data: dailyAbsHighArray
+                             },{
+                                 name: 'Daily High Temperature',
                                  data: dailyHighArray
                              },{
-                                 name: 'Low Temperature',
+                                 name: 'Daily Low Temperature',
                                  data: dailyLowArray
+                             },{
+                                  name: 'Monthly Low Temperature',
+                                  data: dailyAbsLowArray
                              }]
              });
 
