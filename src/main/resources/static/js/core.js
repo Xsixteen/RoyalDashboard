@@ -246,7 +246,7 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
                                    var tempFFloatF        = parseFloat(tempFString);
 
                                    dailyHighArray.push(tempFFloatF);
-                                   dailyAbsHighArray.push(monthlystatistics[monthKey].monthlyStats.MaxMonthlyHigh));
+                                   dailyAbsHighArray.push(monthlystatistics[monthKey].monthlyStats.MaxMonthlyHigh);
                                 }
                             }
                         }
