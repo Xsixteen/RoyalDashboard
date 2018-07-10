@@ -356,7 +356,8 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
                              series: [{
                                  name: 'Monthly High Temperature',
                                  data: dailyAbsHighArray,
-                                 marker: { enabled: false }
+                                 marker: { enabled: false },
+                                 dashStyle: 'shortdot'
                              },{
                                  name: 'Daily High Temperature',
                                  data: dailyHighArray
@@ -366,7 +367,8 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
                              },{
                                   name: 'Monthly Low Temperature',
                                   data: dailyAbsLowArray,
-                                  marker: { enabled: false }
+                                  marker: { enabled: false },
+                                  dashStyle: 'shortdot'
                              }]
              });
 

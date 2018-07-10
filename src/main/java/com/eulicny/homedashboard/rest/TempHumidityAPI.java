@@ -83,7 +83,7 @@ public class TempHumidityAPI {
 
     @RequestMapping("/api/"+CONST_API_TEMPHUMID+"/monthlystatistics")
     public Map<String, Object> monthStatistics() {
-
+        long startTime                                              = System.currentTimeMillis();
         MonthlyTemperature monthlyTemperature                       = null;
 
         HashMap<Integer, MonthlyTemperature> monthlyTemperatures    = new HashMap<>();
@@ -157,8 +157,8 @@ public class TempHumidityAPI {
 
 
         }
-
-
+        long endTime = System.currentTimeMillis();
+        log.info("API Operation took " + ((startTime-endTime)/1000) + " seconds");
         model.put("monthlystatistics", monthlyTemperatures);
         model.put("timestamp", System.currentTimeMillis());
 
