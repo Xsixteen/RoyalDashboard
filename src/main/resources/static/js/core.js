@@ -214,7 +214,8 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
             var dailyHighArray     = [];
             var dailyLowArray      = [];
             var timeArray          = [];
-
+            var monthAbsHighArray  = [];
+            var monthAbsLowArray   = [];
             var monthHighArray     = [];
             var monthLowArray      = [];
             var monthTimeArray     = [];
@@ -282,6 +283,9 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
                     var monthlyNumF          = parseFloat(monthlyTempDecFixedF);
                     monthLowArray.push(monthlyNumF);
 
+                    //FullMonth High Lows
+                    monthAbsHighArray        = monthlystatistics[monthKey].monthlyStats.MaxMonthlyHigh;
+                    monthAbsLowArray         = monthlystatistics[monthKey].monthlyStats.MaxMonthlyLow;
                 }
             }
 
@@ -306,11 +310,18 @@ app.controller('monthly', function($scope, $interval, $http, $location) {
                              }],
 
                              series: [{
-                                 name: 'High Temperature',
+                                name: 'High Temperature',
+                                data: monthAbsHighArray
+                             },
+                             {
+                                 name: 'Avg High Temperature',
                                  data: monthHighArray
                              },{
-                                 name: 'Low Temperature',
+                                 name: 'Avg Low Temperature',
                                  data: monthLowArray
+                             },{
+                                 name: ' Low Temperature',
+                                 data: monthAbsLowArray
                              }]
              });
 
