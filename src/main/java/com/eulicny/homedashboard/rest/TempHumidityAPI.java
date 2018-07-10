@@ -158,7 +158,7 @@ public class TempHumidityAPI {
 
         }
         long endTime = System.currentTimeMillis();
-        log.info("API Operation took " + ((startTime-endTime)/1000) + " seconds");
+        log.info("API Operation took " + ((endTime-startTime)/1000) + " seconds");
         model.put("monthlystatistics", monthlyTemperatures);
         model.put("timestamp", System.currentTimeMillis());
 
