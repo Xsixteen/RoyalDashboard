@@ -24,16 +24,21 @@ public class MonthlyTemperature {
 
     public HashMap<String, Double> getMonthlyStats() {
         Double dailyHighMaxValue = new Double("0");
-
+        Double dailyHighMinValue = new Double("100");
         for(HashMap<Integer,Double>dailyHighValue : dailyHigh) {
             for (Integer value : dailyHighValue.keySet()) {
                 if(dailyHighValue.get(value) > dailyHighMaxValue) {
                     dailyHighMaxValue = dailyHighValue.get(value);
                 }
+                if(dailyHighValue.get(value) < dailyHighMinValue) {
+                    dailyHighMinValue = dailyHighValue.get(value);
+                }
             }
         }
 
-        monthlyStats.put("maxHigh", dailyHighMaxValue);
+        monthlyStats.put("MaxMonthlyHigh", dailyHighMaxValue);
+        monthlyStats.put("MaxMonthlyLow",  dailyHighMinValue);
+
         return monthlyStats;
     }
 
