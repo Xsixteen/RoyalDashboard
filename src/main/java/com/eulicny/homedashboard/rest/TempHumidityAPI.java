@@ -80,6 +80,19 @@ public class TempHumidityAPI {
         return model;
     }
 
+    @RequestMapping("/api/"+CONST_API_TEMPHUMID+"/yearhistorical")
+    public Map<String, List<TempHumidity>> yearHistorical() {
+        Map<String,List<TempHumidity> > model = new HashMap<String,List<TempHumidity>>();
+
+        long now = Instant.now().toEpochMilli();
+        List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000L * 60L * 60L * 24L * 364L), now);
+        log.info("API - monthhistorical result="+temperatureHumidityList.size());
+
+        model.put("yearhistorical", temperatureHumidityList);
+
+        return model;
+    }
+
 
     @RequestMapping("/api/"+CONST_API_TEMPHUMID+"/monthlystatistics")
     public Map<String, Object> monthStatistics() {
