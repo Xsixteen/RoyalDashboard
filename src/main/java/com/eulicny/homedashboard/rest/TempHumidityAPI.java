@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ericulicny.adafruit.sensor.TempHumiditySensor;
-import com.eulicny.homedashboard.dao.TempHumidity;
+import com.eulicny.homedashboard.domain.TempHumidity;
 import com.eulicny.homedashboard.repo.TempHumidMongoRepo;
 
 @RestController

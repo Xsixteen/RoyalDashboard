@@ -1,4 +1,4 @@
-package com.eulicny.homedashboard.dao;
+package com.eulicny.homedashboard.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

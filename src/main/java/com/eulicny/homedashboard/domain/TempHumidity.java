@@ -1,4 +1,4 @@
-package com.eulicny.homedashboard.dao;
+package com.eulicny.homedashboard.domain;
 
 import java.util.Date;
 

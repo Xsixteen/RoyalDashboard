@@ -2,9 +2,7 @@ package com.eulicny.homedashboard.tasks;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +14,8 @@ import org.springframework.stereotype.Component;
 import com.ericulicny.adafruit.sensor.TempHumiditySensor;
 import com.ericulicny.power.PowerRequest;
 import com.ericulicny.power.PowerUtilizationConstants;
-import com.eulicny.homedashboard.dao.PowerUtilization;
-import com.eulicny.homedashboard.dao.TempHumidity;
+import com.eulicny.homedashboard.domain.PowerUtilization;
+import com.eulicny.homedashboard.domain.TempHumidity;
 import com.eulicny.homedashboard.repo.PowerUtilizationMongoRepo;
 import com.eulicny.homedashboard.repo.TempHumidMongoRepo;
 

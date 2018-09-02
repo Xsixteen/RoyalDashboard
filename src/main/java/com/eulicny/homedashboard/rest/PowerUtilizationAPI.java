@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ericulicny.power.PowerRequest;
 import com.ericulicny.power.PowerUtilizationConstants;
-import com.eulicny.homedashboard.dao.PowerUtilization;
+import com.eulicny.homedashboard.domain.PowerUtilization;
 import com.eulicny.homedashboard.repo.PowerUtilizationMongoRepo;
 
 @RestController
