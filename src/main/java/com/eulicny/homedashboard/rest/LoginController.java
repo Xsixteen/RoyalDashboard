@@ -26,7 +26,7 @@ public class LoginController {
         System.out.println(result.getPrincipal());
         System.out.println(result.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(result);
-        return "ok";
+        return "redirect:/index.html";
     }
 
 }
