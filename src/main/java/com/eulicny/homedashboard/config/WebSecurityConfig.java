@@ -20,7 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/monthly.html").hasRole("USER").anyRequest().authenticated()
                 .and().csrf().disable()
                 .formLogin()
-                .loginPage("/login.html").defaultSuccessUrl("/index.html")
+                .loginPage("/login.html").loginProcessingUrl("/authlogin").defaultSuccessUrl("/index.html")
                 .permitAll();
     }
 
