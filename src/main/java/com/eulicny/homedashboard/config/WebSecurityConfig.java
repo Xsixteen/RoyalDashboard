@@ -17,10 +17,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/index.html").hasRole("USER")
                 .antMatchers("/camera.html").hasRole("USER")
-                .antMatchers("/monthly.html").hasRole("USER")
-                .and()
+                .antMatchers("/monthly.html").hasRole("USER").anyRequest().authenticated()
+                .and().csrf().disable()
                 .formLogin()
-                .loginPage("/login.html").loginProcessingUrl("/index.html")
+                .loginPage("/login.html").defaultSuccessUrl("/index.html")
                 .permitAll();
     }
 
