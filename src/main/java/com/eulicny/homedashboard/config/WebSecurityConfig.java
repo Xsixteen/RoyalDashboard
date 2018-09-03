@@ -15,7 +15,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/**").hasRole("USER").anyRequest().authenticated()
+                .antMatchers("/index.html").hasRole("USER").anyRequest().authenticated()
                 .and().csrf().disable()
                 .formLogin()
                 .loginPage("/login.html").defaultSuccessUrl("/index.html")
@@ -24,12 +24,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+    @Override
     public void configure(WebSecurity web) throws Exception {
-
         web.ignoring().antMatchers(
                 "/api/**"
                 );
-
     }
 
     @Autowired
