@@ -16,9 +16,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
-                .antMatchers("/index.html").hasRole("USER")
-                .antMatchers("/camera.html").hasRole("USER")
-                .antMatchers("/monthly.html").hasRole("USER").anyRequest().authenticated()
+                .antMatchers("/**").hasRole("USER").anyRequest().authenticated()
                 .and().csrf().disable()
                 .formLogin()
                 .loginPage("/login.html").defaultSuccessUrl("/index.html")
