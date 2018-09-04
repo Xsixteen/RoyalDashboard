@@ -169,7 +169,7 @@ public class NetworkTrafficAPI {
         String postBody = "group_id=&action_mode=&action_script=&action_wait=5&current_page=Main_Login.asp&next_page=index.asp&login_authorization="+authCode;
         //add request header
         con.setRequestMethod("POST");
-
+        con.setRequestProperty("Authorization", null);
         // Send post request
         con.setDoOutput(true);
         DataOutputStream wr = new DataOutputStream(con.getOutputStream());
