@@ -11,7 +11,7 @@ public class Camera {
 
     public boolean snapPicture() {
 
-        ProcessBuilder processBuilder = new ProcessBuilder(CONST_SNAPCOMMAND + this.rootPath);
+        ProcessBuilder processBuilder = new ProcessBuilder(CONST_SNAPCOMMAND + this.rootPath + "/" + "current.jpg");
 
 // 		System.out.println("Executed this command:\n\t" + command.toString());
 // 		pb.redirectErrorStream(true);
