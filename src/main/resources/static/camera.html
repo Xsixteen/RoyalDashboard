@@ -35,21 +35,12 @@ body {
 
       <div ng-controller="monthly" ng-cloak class="ng-cloak">
 
-	    <h1>Camera Monitoring</h1>
+	    <h1>Camera Application</h1>
 	    <br>
-        <p class="text-center" ng-hide="dataLoaded">
-              <i class="fa fa-spinner fa-spin"></i>
-        </p>
-	    <div class="well" ng-show="dataLoaded">
-           <h2>Monthly Daily Temperature Chart</h2><br>
-                <div id="monthlyDailyTempChart"></div>
-           <br>
-            <h2>Monthly Average Temperature Chart</h2><br>
-            <div id="monthlyTempChart"></div>
-            <br>
-            <br>
-            <h5>LastUpdated: {{timestamp}}</h5>
-        </div>
+        <img src = "/project/RoyalDashboard/current.jpg" /><br>
+          <button type="button" class="btn btn-primary">Take Picture</button>
+
+      </div>
 	  </div>   
 	 </div>
    </div>
