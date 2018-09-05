@@ -1,8 +1,5 @@
 package com.ericulicny.camera;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-
 public class Camera {
 
     private String rootPath;
@@ -28,7 +25,7 @@ public class Camera {
             e.printStackTrace();
             return false;
         }
-
+        return true;
 
     }
 
