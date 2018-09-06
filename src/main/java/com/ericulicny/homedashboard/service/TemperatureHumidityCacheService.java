@@ -45,5 +45,18 @@ public class TemperatureHumidityCacheService {
 
     }
 
+    /**
+     * function removes all records before earliest record
+     * @param earliestRecord
+     */
+    public void cleanCache(Long earliestRecord) {
+        Long maxValue                               = 0L;
+        for(Long epochKey : cache.keySet()) {
+            if(epochKey <= earliestRecord) {
+                cache.remove(epochKey);
+            }
+        }
+    }
+
 
 }

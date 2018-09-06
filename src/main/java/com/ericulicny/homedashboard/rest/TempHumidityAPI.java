@@ -32,15 +32,6 @@ public class TempHumidityAPI {
 
     private final static String CONST_API_TEMPHUMID                     = "temphumid";
 
-    @PostConstruct
-    public void initialize() {
-        log.info("Building Cache ...");
-        Long start = Instant.now().toEpochMilli();
-        temperatureHumidityCacheService.getCachedTemperatureHumidityData(start - (1000 * 60 * 60 * 24), start);
-        log.info("Cache Building Operation took " + ((Instant.now().toEpochMilli()-start)/1000) + " seconds");
-
-    }
-
     @RequestMapping("/api/"+CONST_API_TEMPHUMID+"/current")
     public Map<String,Object> home() {
         Map<String,Object> model = new HashMap<String,Object>();
