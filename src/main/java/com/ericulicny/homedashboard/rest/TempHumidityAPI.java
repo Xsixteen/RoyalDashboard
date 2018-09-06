@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ericulicny.homedashboard.domain.MonthlyTemperature;
+import com.ericulicny.homedashboard.service.TemperatureHumidityCacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,40 +17,27 @@ import com.ericulicny.adafruit.sensor.TempHumiditySensor;
 import com.ericulicny.homedashboard.domain.TempHumidity;
 import com.ericulicny.homedashboard.repo.TempHumidMongoRepo;
 
+import javax.annotation.PostConstruct;
+
 @RestController
 public class TempHumidityAPI {
     @Autowired
     private TempHumidMongoRepo tempHumidMongoRepo;
+
+    @Autowired
+    private TemperatureHumidityCacheService temperatureHumidityCacheService;
     
     TempHumiditySensor temperatureHudmiditySensor                       = new TempHumiditySensor();
     private static final Logger log                                     = LoggerFactory.getLogger(TempHumidityAPI.class);
 
     private final static String CONST_API_TEMPHUMID                     = "temphumid";
-    private static ConcurrentHashMap<Long,TempHumidity> cache           = new ConcurrentHashMap();
 
-    public List<TempHumidity> getCachedTemperatureHumidityData(Long start, Long end) {
-        ArrayList<TempHumidity> listOfRequestedData = new ArrayList<>();
-        ArrayList<Long> missingValues               = new ArrayList<>();
-        Long maxValue                               = 0L;
-        for(Long epochKey : cache.keySet()) {
-            if(epochKey >= start && epochKey <= end) {
-                listOfRequestedData.add(cache.get(epochKey));
-                if(epochKey > maxValue) {
-                    maxValue = epochKey;
-                }
-            }
-        }
-
-        Collections.sort(missingValues);
-        List<TempHumidity> result = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(maxValue, end);
-        log.info("Updating Cache with values between " + maxValue + " and " + end + " Database returned rows="+result.size());
-
-        for(TempHumidity tempHumidity : result) {
-            cache.put(tempHumidity.getEpochTime(), tempHumidity);
-            listOfRequestedData.add(tempHumidity);
-        }
-
-        return listOfRequestedData;
+    @PostConstruct
+    public void initialize() {
+        log.info("Building Cache ...");
+        Long start = Instant.now().toEpochMilli();
+        temperatureHumidityCacheService.getCachedTemperatureHumidityData(start - (1000 * 60 * 60 * 24), start);
+        log.info("Cache Building Operation took " + ((Instant.now().toEpochMilli()-start)/1000) + " seconds");
 
     }
 
@@ -113,7 +101,7 @@ public class TempHumidityAPI {
         Map<String,List<TempHumidity> > model = new HashMap<String,List<TempHumidity>>();
 
         long now = Instant.now().toEpochMilli();
-        List<TempHumidity> temperatureHumidityList = getCachedTemperatureHumidityData(now - (1000L * 60L * 60L * 24L * 364L), now);
+        List<TempHumidity> temperatureHumidityList = temperatureHumidityCacheService.getCachedTemperatureHumidityData(now - (1000L * 60L * 60L * 24L * 364L), now);
         //List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000L * 60L * 60L * 24L * 364L), now);
         log.info("API - yearhistorical result="+temperatureHumidityList.size());
 
@@ -132,7 +120,7 @@ public class TempHumidityAPI {
         Map<String, Object> model                                   = new HashMap<>();
         boolean valueFound                                          = false;
         Long now = Instant.now().toEpochMilli();
-        List<TempHumidity> temperatureHumidityList                  = getCachedTemperatureHumidityData(now - (1000L * 60L * 60L * 24L * 364L), now);
+        List<TempHumidity> temperatureHumidityList                  = temperatureHumidityCacheService.getCachedTemperatureHumidityData(now - (1000L * 60L * 60L * 24L * 364L), now);
 
         //List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000L * 60L * 60L * 24L * 364L), now);
         log.info("API - monthlystatistics result="+temperatureHumidityList.size());
