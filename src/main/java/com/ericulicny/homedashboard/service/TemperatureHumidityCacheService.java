@@ -19,7 +19,6 @@ public class TemperatureHumidityCacheService {
 
     private static final Logger log                                     = LoggerFactory.getLogger(TemperatureHumidityCacheService.class);
 
-    private final static String CONST_API_TEMPHUMID                     = "temphumid";
     private static ConcurrentHashMap<Long,TempHumidity> cache           = new ConcurrentHashMap();
 
     public List<TempHumidity> getCachedTemperatureHumidityData(Long start, Long end) {
@@ -35,7 +34,7 @@ public class TemperatureHumidityCacheService {
         }
 
         List<TempHumidity> result = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(maxValue, end);
-        log.info("Updating Cache with values between " + maxValue + " and " + end + " Database returned rows="+result);
+        log.info("Updating Cache with values between " + maxValue + " and " + end + " Database returned rows="+result.size());
 
         for(TempHumidity tempHumidity : result) {
             cache.put(tempHumidity.getEpochTime(), tempHumidity);
