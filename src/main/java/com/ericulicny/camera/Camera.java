@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 public class Camera {
 
     private String rootPath;
-    private final static String CONST_SNAPCOMMAND = "raspistill -o  ";
+    private final static String CONST_SNAPCOMMAND = "raspistill";
     private static final Logger log = LoggerFactory.getLogger(Camera.class);
 
     public Camera(String rootPath) {
@@ -16,7 +16,7 @@ public class Camera {
 
     public boolean snapPicture() {
         String command = CONST_SNAPCOMMAND + this.rootPath + "/" + "current.jpg";
-        ProcessBuilder processBuilder = new ProcessBuilder(CONST_SNAPCOMMAND, this.rootPath+"/"+"current.jpg");
+        ProcessBuilder processBuilder = new ProcessBuilder(CONST_SNAPCOMMAND, "-o", this.rootPath+"/"+"current.jpg");
         log.info("Snapping picture by issuing command: " + command);
 // 		System.out.println("Executed this command:\n\t" + command.toString());
 // 		pb.redirectErrorStream(true);
