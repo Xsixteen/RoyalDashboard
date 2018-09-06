@@ -3,6 +3,7 @@ package com.ericulicny.homedashboard.rest;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.ericulicny.homedashboard.domain.MonthlyTemperature;
 import org.slf4j.Logger;
@@ -20,10 +21,35 @@ public class TempHumidityAPI {
     @Autowired
     private TempHumidMongoRepo tempHumidMongoRepo;
     
-    TempHumiditySensor temperatureHudmiditySensor = new TempHumiditySensor();
-    private static final Logger log = LoggerFactory.getLogger(TempHumidityAPI.class);
+    TempHumiditySensor temperatureHudmiditySensor                       = new TempHumiditySensor();
+    private static final Logger log                                     = LoggerFactory.getLogger(TempHumidityAPI.class);
 
-    private final static String CONST_API_TEMPHUMID = "temphumid";
+    private final static String CONST_API_TEMPHUMID                     = "temphumid";
+    private static ConcurrentHashMap<Long,TempHumidity> cache           = new ConcurrentHashMap();
+
+    public List<TempHumidity> getCachedTemperatureHumidityData(Long start, Long end) {
+        ArrayList<TempHumidity> listOfRequestedData = new ArrayList<>();
+        ArrayList<Long> missingValues               = new ArrayList<>();
+        for(Long epochKey : cache.keySet()) {
+            if(epochKey >= start && epochKey <= end) {
+                listOfRequestedData.add(cache.get(epochKey));
+            } else {
+                missingValues.add(epochKey);
+            }
+        }
+
+        Collections.sort(missingValues);
+        List<TempHumidity> result = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(missingValues.get(0), missingValues.get(missingValues.size()-1));
+        log.info("Missing Value List Size=" + missingValues.size() + " Updating Cache with values between " + missingValues.get(0) + " and " + missingValues.get(missingValues.size()-1));
+
+        for(TempHumidity tempHumidity : result) {
+            cache.put(tempHumidity.getEpochTime(), tempHumidity);
+            listOfRequestedData.add(tempHumidity);
+        }
+
+        return listOfRequestedData;
+
+    }
 
     @RequestMapping("/api/"+CONST_API_TEMPHUMID+"/current")
     public Map<String,Object> home() {
@@ -85,7 +111,8 @@ public class TempHumidityAPI {
         Map<String,List<TempHumidity> > model = new HashMap<String,List<TempHumidity>>();
 
         long now = Instant.now().toEpochMilli();
-        List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000L * 60L * 60L * 24L * 364L), now);
+        List<TempHumidity> temperatureHumidityList = getCachedTemperatureHumidityData(now - (1000L * 60L * 60L * 24L * 364L), now);
+        //List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000L * 60L * 60L * 24L * 364L), now);
         log.info("API - yearhistorical result="+temperatureHumidityList.size());
 
         model.put("yearhistorical", temperatureHumidityList);
@@ -103,7 +130,9 @@ public class TempHumidityAPI {
         Map<String, Object> model                                   = new HashMap<>();
         boolean valueFound                                          = false;
         Long now = Instant.now().toEpochMilli();
-        List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000L * 60L * 60L * 24L * 364L), now);
+        List<TempHumidity> temperatureHumidityList                  = getCachedTemperatureHumidityData(now - (1000L * 60L * 60L * 24L * 364L), now);
+
+        //List<TempHumidity> temperatureHumidityList = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000L * 60L * 60L * 24L * 364L), now);
         log.info("API - monthlystatistics result="+temperatureHumidityList.size());
 
         Calendar calendar = Calendar.getInstance();

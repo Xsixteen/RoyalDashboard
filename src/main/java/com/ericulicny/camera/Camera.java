@@ -15,14 +15,10 @@ public class Camera {
     }
 
     public boolean snapPicture() {
-        String command = CONST_SNAPCOMMAND + this.rootPath + "/" + "current.jpg";
+        String command = CONST_SNAPCOMMAND + "-o " + this.rootPath + "/" + "current.jpg";
         ProcessBuilder processBuilder = new ProcessBuilder(CONST_SNAPCOMMAND, "-o", this.rootPath+"/"+"current.jpg");
         log.info("Snapping picture by issuing command: " + command);
-// 		System.out.println("Executed this command:\n\t" + command.toString());
-// 		pb.redirectErrorStream(true);
-// 		pb.redirectOutput(
-// 				new File(System.getProperty("user.home") + File.separator +
-// 						"Desktop" + File.separator + "RPiCamera.out"));
+
         try {
             Process process             = processBuilder.start();
             process.waitFor();
