@@ -30,17 +30,19 @@ public class TempHumidityAPI {
     public List<TempHumidity> getCachedTemperatureHumidityData(Long start, Long end) {
         ArrayList<TempHumidity> listOfRequestedData = new ArrayList<>();
         ArrayList<Long> missingValues               = new ArrayList<>();
+        Long maxValue                               = 0L;
         for(Long epochKey : cache.keySet()) {
             if(epochKey >= start && epochKey <= end) {
                 listOfRequestedData.add(cache.get(epochKey));
-            } else {
-                missingValues.add(epochKey);
+                if(epochKey > maxValue) {
+                    maxValue = epochKey;
+                }
             }
         }
 
         Collections.sort(missingValues);
-        List<TempHumidity> result = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(missingValues.get(0), missingValues.get(missingValues.size()-1));
-        log.info("Missing Value List Size=" + missingValues.size() + " Updating Cache with values between " + missingValues.get(0) + " and " + missingValues.get(missingValues.size()-1));
+        List<TempHumidity> result = tempHumidMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(maxValue, end);
+        log.info("Updating Cache with values between " + maxValue + " and " + end + " Database returned rows="+result.size());
 
         for(TempHumidity tempHumidity : result) {
             cache.put(tempHumidity.getEpochTime(), tempHumidity);
