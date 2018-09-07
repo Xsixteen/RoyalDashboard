@@ -16,7 +16,9 @@ public class CacheMaintenanceTask {
     @Autowired
     private TemperatureHumidityCacheService temperatureHumidityCacheService;
 
-    @Scheduled(fixedRate = 1440*60000)
+    private final long CONST_ONEDAY=1440;
+    private final long CONST_ONEMONTH = 43200;
+    @Scheduled(fixedRate = CONST_ONEDAY*60000L)
     public void updateCache() {
         log.info("Building Cache ...");
         Long start = Instant.now().toEpochMilli();
@@ -25,7 +27,7 @@ public class CacheMaintenanceTask {
 
     }
 
-    @Scheduled(fixedRate = 43200*60000)
+    @Scheduled(fixedRate = CONST_ONEMONTH*60000L)
     public void cleanCache() {
         log.info("Cleaning Cache ...");
         Long start = Instant.now().toEpochMilli();
