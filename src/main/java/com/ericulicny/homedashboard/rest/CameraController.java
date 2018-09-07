@@ -5,10 +5,8 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,7 +39,10 @@ public class CameraController {
         return "OK";
     }
 
-    @RequestMapping("/api/camera/last")
+    @GetMapping(
+            value = "/api/camera/last",
+            produces = MediaType.IMAGE_JPEG_VALUE
+    )
     @ResponseBody
     public byte[] pictureLast() throws IOException {
         Camera camera = new Camera(cameraDataPath);
