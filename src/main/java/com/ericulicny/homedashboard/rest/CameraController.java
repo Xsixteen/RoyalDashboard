@@ -1,12 +1,19 @@
 package com.ericulicny.homedashboard.rest;
 
 import com.ericulicny.camera.Camera;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 @RestController
 public class CameraController {
@@ -35,10 +42,13 @@ public class CameraController {
     }
 
     @RequestMapping("/api/camera/last")
-    public String pictureLast(@RequestParam(value="latestpicture") String latestpicture) {
+    @ResponseBody
+    public byte[] pictureLast() throws IOException {
+        Camera camera = new Camera(cameraDataPath);
         log.info("Retrieving last Picture");
-
-        return "OK";
+        File initialFile = new File(camera.getLastPictureLocation());
+        InputStream in = new FileInputStream(initialFile);
+        return IOUtils.toByteArray(in);
     }
 
 

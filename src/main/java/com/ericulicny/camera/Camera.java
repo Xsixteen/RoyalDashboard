@@ -11,12 +11,12 @@ public class Camera {
     private static final Logger log = LoggerFactory.getLogger(Camera.class);
 
     public Camera(String rootPath) {
-        this.rootPath = rootPath;
+        this.rootPath = rootPath + "/" + "current.jpg";
     }
 
     public boolean snapPicture() {
-        String command = CONST_SNAPCOMMAND + "-o " + this.rootPath + "/" + "current.jpg";
-        ProcessBuilder processBuilder = new ProcessBuilder(CONST_SNAPCOMMAND, "-o", this.rootPath+"/"+"current.jpg");
+        String command = CONST_SNAPCOMMAND + "-o " + this.rootPath;
+        ProcessBuilder processBuilder = new ProcessBuilder(CONST_SNAPCOMMAND, "-o", this.rootPath);
         log.info("Snapping picture by issuing command: " + command);
 
         try {
@@ -30,6 +30,9 @@ public class Camera {
 
     }
 
+    public String getLastPictureLocation() {
+        return this.rootPath;
+    }
     public void archiveCurrentPicture() {
 
     }

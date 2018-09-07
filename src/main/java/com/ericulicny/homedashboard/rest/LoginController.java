@@ -23,7 +23,7 @@ public class LoginController {
 
 
     @RequestMapping("/api/login")
-    public String login(@RequestBody LoginForm loginForm)  {
+    public String login(LoginForm loginForm) {
         System.out.println("My login controller");
         System.out.println("User name is " + loginForm.getUsername());
         System.out.println("Passwird is " + loginForm.getPassword());
