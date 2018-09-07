@@ -23,7 +23,7 @@ public class TemperatureHumidityCacheService {
 
     public List<TempHumidity> getCachedTemperatureHumidityData(Long start, Long end) {
         ArrayList<TempHumidity> listOfRequestedData = new ArrayList<>();
-        Long maxValue                               = 0L;
+        Long maxValue                               = start;
         for(Long epochKey : cache.keySet()) {
             if(epochKey >= start && epochKey <= end) {
                 listOfRequestedData.add(cache.get(epochKey));

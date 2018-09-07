@@ -16,8 +16,8 @@ public class CacheMaintenanceTask {
     @Autowired
     private TemperatureHumidityCacheService temperatureHumidityCacheService;
 
-    private final long CONST_ONEDAY=1440;
-    private final long CONST_ONEMONTH = 43200;
+    private final long CONST_ONEDAY     = 1440;
+    private final long CONST_ONEMONTH   = 43200;
     @Scheduled(fixedRate = CONST_ONEDAY*60000L)
     public void updateCache() {
         log.info("Building Cache ...");

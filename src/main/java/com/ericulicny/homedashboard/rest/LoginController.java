@@ -1,5 +1,6 @@
 package com.ericulicny.homedashboard.rest;
 
+import com.ericulicny.homedashboard.domain.LoginForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,11 +23,11 @@ public class LoginController {
 
 
     @RequestMapping("/api/login")
-    public String login(@RequestParam(value="username") String name, @RequestParam(value="password") String password) {
+    public String login(@RequestBody LoginForm loginForm)  {
         System.out.println("My login controller");
-        System.out.println("User name is " + name);
-        System.out.println("Passwird is " + password);
-        Authentication request = new UsernamePasswordAuthenticationToken(name, password);
+        System.out.println("User name is " + loginForm.getUsername());
+        System.out.println("Passwird is " + loginForm.getPassword());
+        Authentication request = new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword());
 
         Authentication result = authenticationManager.authenticate(request);
         log.info(result.getPrincipal().toString());
