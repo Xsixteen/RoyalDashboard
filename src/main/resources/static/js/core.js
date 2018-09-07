@@ -4,7 +4,6 @@ app.run(function($rootScope) {
 });
 
 app.controller('menucontroller', function($scope, $interval, $http, $location) {
-
     $scope.isActive = function( path ) {
           if(!$location.absUrl().includes(".html")) {
             if(path == "index.html") {
@@ -12,6 +11,22 @@ app.controller('menucontroller', function($scope, $interval, $http, $location) {
             }
           }
           return $location.absUrl().includes(path);
+    };
+});
+
+app.controller('camera', function($scope, $interval, $http, $location) {
+    $scope.takePicture = function() {
+        $http.get("api/camera/snap")
+             .then(function(response) {
+                 var random = (new Date()).toString();
+                 $scope.cameraImg = "/api/camera/last?cb=" + random;;
+                 var rxbps                = response.data.rxrateBytes;
+                 var txbps                = response.data.txrateBytes;
+                 $scope.rxNetworkUsage    = Math.round(rxbps)/1000;
+                 $scope.txNetworkUsage    = Math.round(txbps)/1000;
+                 $scope.networkLoading    = true;
+                 $scope.intialNetText     = false;
+          });
     };
 });
 

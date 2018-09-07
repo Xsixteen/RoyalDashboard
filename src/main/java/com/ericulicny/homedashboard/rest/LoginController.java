@@ -24,9 +24,6 @@ public class LoginController {
 
     @RequestMapping("/api/login")
     public String login(LoginForm loginForm) {
-        System.out.println("My login controller");
-        System.out.println("User name is " + loginForm.getUsername());
-        System.out.println("Passwird is " + loginForm.getPassword());
         Authentication request = new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword());
 
         Authentication result = authenticationManager.authenticate(request);
@@ -35,8 +32,10 @@ public class LoginController {
         SecurityContextHolder.getContext().setAuthentication(result);
 
         if(result.isAuthenticated()) {
+            log.info("Login Successful");
             return "redirect:/index.html";
         } else {
+            log.info("Login Failed!  Attempted username=" + loginForm.getUsername());
             return "FAIL";
         }
     }

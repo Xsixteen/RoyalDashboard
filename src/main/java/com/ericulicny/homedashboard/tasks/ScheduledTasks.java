@@ -32,9 +32,12 @@ public class ScheduledTasks {
     
     @Value("${powerHost}")
     private String powerHost;
+
     private final int CONST_TIMER_MINUTES   = 10;
+
     @Scheduled(fixedRate = CONST_TIMER_MINUTES*60000)
     public void reportTempAndHumidity() {
+        log.info("Fetching Temperature and Humidity Data");
         tempHumidSensor.initialize();
         Date date = new Date();
         TempHumidity temperatureHumidityInsert = new TempHumidity();
