@@ -1,6 +1,5 @@
 package com.ericulicny.homedashboard.tasks;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.util.Date;
 
