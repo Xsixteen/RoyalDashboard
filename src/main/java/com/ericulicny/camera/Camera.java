@@ -16,7 +16,7 @@ public class Camera {
 
     public boolean snapPicture() {
         String command = CONST_SNAPCOMMAND + "-o " + this.rootPath + " -w 800 -h 600";
-        ProcessBuilder processBuilder = new ProcessBuilder(CONST_SNAPCOMMAND, "-o", this.rootPath, "-w", "800","-h","600");
+        ProcessBuilder processBuilder = new ProcessBuilder(CONST_SNAPCOMMAND, "-o", this.rootPath, "-w", "1600","-h","1200");
         log.info("Snapping picture by issuing command: " + command);
 
         try {

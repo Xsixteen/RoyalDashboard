@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class CameraController {
@@ -22,13 +24,16 @@ public class CameraController {
     private static final Logger log = LoggerFactory.getLogger(CameraController.class);
 
     @RequestMapping("/api/camera/snap")
-    public String snapPicture() {
+    public Map<String,String> snapPicture() {
+        HashMap<String, String> result = new HashMap<>();
         Camera camera = new Camera(cameraDataPath);
         log.info("Snapping Picture!");
         if(camera.snapPicture()) {
-            return "OK";
+            result.put("status", "success");
+            return result;
         } else {
-            return "FAIL";
+            result.put("status", "failure");
+            return result;
         }
     }
 
