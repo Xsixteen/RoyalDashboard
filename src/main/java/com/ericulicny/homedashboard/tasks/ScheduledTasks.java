@@ -38,17 +38,18 @@ public class ScheduledTasks {
     @Scheduled(fixedRate = CONST_TIMER_MINUTES*60000)
     public void reportTempAndHumidity() {
         log.info("Fetching Temperature and Humidity Data");
-        tempHumidSensor.initialize();
-        Date date = new Date();
-        TempHumidity temperatureHumidityInsert = new TempHumidity();
-        temperatureHumidityInsert.setEpochTime(Instant.now().toEpochMilli());
+
         try {
+            tempHumidSensor.initialize();
+            Date date = new Date();
+            TempHumidity temperatureHumidityInsert = new TempHumidity();
+            temperatureHumidityInsert.setEpochTime(Instant.now().toEpochMilli());
             temperatureHumidityInsert.setHumidity(tempHumidSensor.getHumidity());
             temperatureHumidityInsert.setTemperature(tempHumidSensor.getTemperature());
             temperatureHumidityInsert.setCreated(date.toString());
             temperatureHumidityInsert.setSensorId(1);
             tempHumidMongoRepo.insert(temperatureHumidityInsert);
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("Error fetching temperature data=" + e.getMessage());
             e.printStackTrace();
         }
