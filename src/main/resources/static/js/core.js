@@ -14,6 +14,12 @@ app.controller('menucontroller', function($scope, $interval, $http, $location) {
     };
 });
 
+app.controller('login', function($scope, $interval, $http, $location) {
+    if($location.search().failed == "true") {
+        $scope.failedBanner = true;
+    }
+});
+
 app.controller('camera', function($scope, $interval, $http, $location) {
     $scope.cameraImg = "/api/camera/last";
     $scope.takePicture = function() {

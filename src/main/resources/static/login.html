@@ -31,14 +31,24 @@ body {
 
   <div class="container">
     <div class="starter-template">
-	    <h1>Login</h1>
-	    <br>
-        <form action ="/api/login" class="register-form" method="post">
-            <input type="text" placeholder="username" name="username"/>
-            <input type="password" placeholder="password" name="password"/>
-            <button>Login</button>
-        </form>
+        <div ng-controller="login" ng-cloak class="ng-cloak">
 
+        <h1>Login</h1>
+	    <br>
+            <div class="well" ng-show="failedBanner">
+                <div class="alert alert-danger" role="alert">
+                    Login Failed!
+                </div>
+            </div>
+
+            <form action ="/api/login" class="register-form" method="post">
+                <div class="form-group">
+                    <input type="text" placeholder="username" name="username"/>
+                    <input type="password" placeholder="password" name="password"/>
+                    <button>Login</button>
+                </div>
+        </form>
+        </div>
 	 </div>
    </div>
  

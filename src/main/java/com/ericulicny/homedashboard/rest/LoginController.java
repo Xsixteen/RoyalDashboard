@@ -36,7 +36,7 @@ public class LoginController {
             return "redirect:/index.html";
         } else {
             log.info("Login Failed!  Attempted username=" + loginForm.getUsername());
-            return "FAIL";
+            return "redirect:/login.html?failed=true";
         }
     }
 
