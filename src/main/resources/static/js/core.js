@@ -15,17 +15,12 @@ app.controller('menucontroller', function($scope, $interval, $http, $location) {
 });
 
 app.controller('camera', function($scope, $interval, $http, $location) {
+    $scope.cameraImg = "/api/camera/last";
     $scope.takePicture = function() {
         $http.get("api/camera/snap")
              .then(function(response) {
                  var random = (new Date()).toString();
-                 $scope.cameraImg = "/api/camera/last?cb=" + random;;
-                 var rxbps                = response.data.rxrateBytes;
-                 var txbps                = response.data.txrateBytes;
-                 $scope.rxNetworkUsage    = Math.round(rxbps)/1000;
-                 $scope.txNetworkUsage    = Math.round(txbps)/1000;
-                 $scope.networkLoading    = true;
-                 $scope.intialNetText     = false;
+                 $scope.cameraImg = "/api/camera/last?cb=" + random;
           });
     };
 });
