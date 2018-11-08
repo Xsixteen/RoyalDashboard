@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -9,11 +10,19 @@ import { Component } from '@angular/core';
 })
 
 export class CameraComponent {
-  stocks = [];
+  cameraImg = "/api/camera/last";
   title = 'Stock Insights';
   data = {};
 
-  constructor() {
+
+  takePicture() {
+          this.http.get("api/camera/snap").subscribe((data: any) => {
+                   var random = (new Date()).toString();
+                   this.cameraImg = "/api/camera/last?cb=" + random;
+            });
+  };
+
+  constructor(private http: HttpClient) {
   }
 
 }

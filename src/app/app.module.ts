@@ -8,6 +8,7 @@ import { HomeComponent } from './home-page/home-page.component';
 import { MonthlyComponent } from './monthly-page/monthly-page.component';
 import { CameraComponent } from './camera-page/camera-page.component';
 import { ApplicationRoutingModule } from './application-routing.module';
+import { HighchartsChartComponent } from 'highcharts-angular';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ApplicationRoutingModule } from './application-routing.module';
     AppComponent,
     HomeComponent,
     MonthlyComponent,
-    CameraComponent
+    CameraComponent,
+    HighchartsChartComponent
   ],
   imports: [
     BrowserModule,

@@ -10,10 +10,32 @@
             </p>
             <div class="well" ng-show="dataLoaded">
                 <h2>Monthly Daily Temperature Chart</h2><br>
-                <div id="monthlyDailyTempChart"></div>
+                <highcharts-chart
+                        [Highcharts]="Highcharts"
+
+                        [constructorType]="chartConstructor"
+                        [options]="monthlyDailyTempChart"
+                        [callbackFunction]="chartCallback"
+
+                        [(update)]="updateFlag"
+                        [oneToOne]="oneToOneFlag"
+
+                        style="width: 100%; height: 400px; display: block;"
+                ></highcharts-chart>
                 <br>
                 <h2>Monthly Average Temperature Chart</h2><br>
-                <div id="monthlyTempChart"></div>
+                <highcharts-chart
+                        [Highcharts]="Highcharts"
+
+                        [constructorType]="chartConstructor"
+                        [options]="monthlyTempChart"
+                        [callbackFunction]="chartCallback"
+
+                        [(update)]="updateFlag"
+                        [oneToOne]="oneToOneFlag"
+
+                        style="width: 100%; height: 400px; display: block;"
+                ></highcharts-chart>
                 <br>
                 <br>
                 <h5>LastUpdated: {{timestamp}}</h5>
