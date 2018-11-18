@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="starter-template">
+
+        <div ng-controller="monthly" ng-cloak class="ng-cloak">
+
+            <h1>Monthly Statistics</h1>
+            <br>
+            <p class="text-center" [hidden]="dataLoaded">
+                <i class="fa fa-spinner fa-spin"></i>
+            </p>
+            <div class="well" *ngIf="dataLoaded">
+                <h2>Last 30-Days Temperature Chart</h2><br>
+                <highcharts-chart
+                        [Highcharts]="Highcharts"
+
+                        [constructorType]="chartConstructor"
+                        [options]="last30DaysTempChart"
+                        [callbackFunction]="chartCallback"
+
+                        [(update)]="updateFlag"
+                        [oneToOne]="oneToOneFlag"
+
+                        style="width: 100%; height: 400px; display: block;"
+                ></highcharts-chart>
+                <br>
+            <div class="well" *ngIf="dataLoaded">
+                <h2>Monthly Daily Temperature Chart</h2><br>
+                <highcharts-chart
+                        [Highcharts]="Highcharts"
+
+                        [constructorType]="chartConstructor"
+                        [options]="monthlyDailyTempChart"
+                        [callbackFunction]="chartCallback"
+
+                        [(update)]="updateFlag"
+                        [oneToOne]="oneToOneFlag"
+
+                        style="width: 100%; height: 400px; display: block;"
+                ></highcharts-chart>
+                <br>
+                <h2>Monthly Average Temperature Chart</h2><br>
+                <highcharts-chart
+                        [Highcharts]="Highcharts"
+
+                        [constructorType]="chartConstructor"
+                        [options]="monthlyTempChart"
+                        [callbackFunction]="chartCallback"
+
+                        [(update)]="updateFlag"
+                        [oneToOne]="oneToOneFlag"
+
+                        style="width: 100%; height: 400px; display: block;"
+                ></highcharts-chart>
+                <br>
+                <br>
+                <h5>LastUpdated: {{timestamp}}</h5>
+            </div>
+        </div>
+    </div>
+</div>

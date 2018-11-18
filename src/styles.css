@@ -1,0 +1,12 @@
+/**[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+} **/
+@import url("https://use.fontawesome.com/releases/v5.1.0/css/all.css");
+
+body {
+  padding-top: 5rem;
+}
+.starter-template {
+  padding: 5rem 1.5rem;
+  text-align: center;
+}

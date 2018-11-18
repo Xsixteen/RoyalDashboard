@@ -67,7 +67,7 @@ public class PowerUtilizationAPI {
         Map<String,List<PowerUtilization> > model = new HashMap<String,List<PowerUtilization>>();
         
         Long now = Instant.now().toEpochMilli();
-        List<PowerUtilization> temperatureHumidityList = powerUtilizationMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000 * 60 * 60 * 24 * 31), now);
+        List<PowerUtilization> temperatureHumidityList = powerUtilizationMongoRepo.findByEpochTimeBetweenOrderByEpochTimeAsc(now - (1000L * 60L * 60L * 24L * 31L), now);
 
         model.put("monthhistorical", temperatureHumidityList);
   
