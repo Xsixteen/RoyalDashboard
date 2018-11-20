@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavbarService } from './navbar.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,11 @@ export class AppComponent {
   title = 'Stock Insights';
   data = {};
 
-  constructor() {
+  constructor(public nav: NavbarService) {
+  }
+
+  ngOnInit() {
+     this.nav.show();
   }
 
 }

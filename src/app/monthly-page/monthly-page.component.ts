@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as Highcharts from 'highcharts';
+import { NavbarService } from '../navbar.service';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class MonthlyComponent {
   updateFlag = false; // optional boolean
   oneToOneFlag = true; // optional boolean, defaults to false
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public nav : NavbarService) {
   this.http.get("api/temphumid/last30statistics").subscribe((data: any) => {
             var monthlystatistics      = data.last30statistics;
 
@@ -251,9 +252,6 @@ export class MonthlyComponent {
                            chart: {
                               type: 'bar'
                            },
-                           title: {
-                               text: 'Monthly Temperature Chart'
-                           },
                            xAxis: {
                                categories: monthTimeArray
                            },
@@ -319,5 +317,9 @@ export class MonthlyComponent {
       });
 
 
+    }
+
+    ngOnInit() {
+        this.nav.show();
     }
 }

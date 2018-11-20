@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as Highcharts from 'highcharts';
-
+import { NavbarService } from '../navbar.service';
 
 @Component({
   selector: 'app-root',
@@ -29,7 +29,7 @@ export class HomeComponent {
    intialNetText      = true;
    networkLoading     = false;
 
-   constructor(private http: HttpClient) {
+   constructor(private http: HttpClient, public nav : NavbarService) {
        this.http.get("/api/temphumid/current").subscribe((data: any) => {
 
                     let tempCFull          = data.tempC;
@@ -191,4 +191,7 @@ export class HomeComponent {
 
   }
 
+  ngOnInit() {
+    this.nav.show();
+  }
 }

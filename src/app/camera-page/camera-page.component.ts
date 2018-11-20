@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { NavbarService } from '../navbar.service';
 
 
 
@@ -22,7 +23,10 @@ export class CameraComponent {
             });
   };
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,  public nav : NavbarService) {
   }
 
+  ngOnInit() {
+    this.nav.show();
+  }
 }
