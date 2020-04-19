@@ -12,7 +12,7 @@
   },
   "private": true,
   "dependencies": {
-    "https-proxy-agent": ">=2.2.0",
+    "https-proxy-agent": ">=2.2.3",
     "@angular/animations": "6.1.0",
     "@angular/common": "6.0.7",
     "@angular/compiler": "6.0.7",
