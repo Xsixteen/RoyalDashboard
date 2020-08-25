@@ -32,7 +32,7 @@
     "rxjs": "^6.2.1",
     "zone.js": "^0.8.26",
     "highcharts-angular": "2.3.1",
-    "highcharts": "^6.0.7"
+    "highcharts": "^7.2.2"
   },
   "devDependencies": {
     "@angular/cli": "6.0.8",
